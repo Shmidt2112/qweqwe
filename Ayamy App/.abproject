@@ -1,0 +1,45 @@
+{
+  "ProjectName": "Ayamy App",
+  "ProjectGuid": "f3032d1e-c306-40f2-9489-9f346de09566",
+  "projectVersion": 1,
+  "AppIdentifier": "com.telerik.AyamyApp",
+  "DisplayName": "Ayamy App",
+  "Author": "",
+  "Description": "",
+  "BundleVersion": "1.0",
+  "AndroidVersionCode": "1",
+  "iOSDeviceFamily": [
+    "1",
+    "2"
+  ],
+  "iOSBackgroundMode": [],
+  "ProjectTypeGuids": "{070BCB52-5A75-4F8C-A973-144AF0EAFCC9}",
+  "FrameworkVersion": "3.7.0",
+  "AndroidPermissions": [
+    "android.permission.INTERNET"
+  ],
+  "DeviceOrientations": [
+    "Portrait",
+    "Landscape"
+  ],
+  "AndroidHardwareAcceleration": "false",
+  "iOSStatusBarStyle": "Default",
+  "Framework": "Cordova",
+  "WP8TileTitle": "",
+  "WP8Publisher": "",
+  "WP8Capabilities": [
+    "ID_CAP_NETWORKING",
+    "ID_CAP_WEBBROWSERCOMPONENT"
+  ],
+  "WP8Requirements": [],
+  "WP8PublisherID": "{0aeb3f14-614c-4c97-a0e5-1b3e86934169}",
+  "WP8ProductID": "{03256ada-7c91-4fbe-b9f0-fbf1588c9d3a}",
+  "WPSdk": "8.0",
+  "WP8PackageIdentityName": "1234Telerik.AyamyApp",
+  "WP8WindowsPublisherName": "CN=Telerik",
+  "WP8SupportedResolutions": [
+    "ID_RESOLUTION_WVGA",
+    "ID_RESOLUTION_WXGA",
+    "ID_RESOLUTION_HD720P"
+  ]
+}
