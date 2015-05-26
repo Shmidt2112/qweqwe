@@ -27,8 +27,11 @@
          <ul id="main-list"></ul>
     </div>
     <script type="text/x-kendo-template" id="main-template">
-        <img src="${url}" />
-        <h3>${name} ${price}р</h3>
+        <img src="${url}" style="float:left;" />
+        <span class="items">${name}</span>
+        <h4 class="prices">
+        	<a data-role="button" class="prices" data-click="app.doprice">${price} Р</a>
+        </h4>
         <p>${description}</p>
     </script>
 </body>

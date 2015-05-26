@@ -1,8 +1,8 @@
 var app = (function () {
 
     var mobileApp = {};
-    
-     var groupedData = [
+
+    var groupedData = [
         {
             name: "Sashimi Salad",
             description: "Зелень, украшеная свежими сашими, васаби, соевый винегрет.",
@@ -11,7 +11,7 @@ var app = (function () {
             letter: "Роллы"
             },
         {
-            name: "Seaweed Salad",
+            name: "Seaweed Salad bla bla bla",
             description: "Салат из морепродуктов.",
             url: "images/seaweed-salad.jpg",
             price: 290,
@@ -48,24 +48,29 @@ var app = (function () {
     ];
 
     function initialize() {
-        mobileApp = new kendo.mobile.Application(document.body, {skin: "flat"});
+        mobileApp = new kendo.mobile.Application(document.body, {
+            skin: "flat"
+        });
     };
-    
+
     function initMain() {
         $("#main-list").kendoMobileListView({
-                dataSource: kendo.data.DataSource.create({
-                    data: groupedData,
-                    group: "letter"
-                }),
-                template: $("#main-template").html(),
-                headerTemplate: "<h2>${value}</h2>"
-            });
+            dataSource: kendo.data.DataSource.create({
+                data: groupedData,
+                group: "letter"
+            }),
+            template: $("#main-template").html(),
+            headerTemplate: "<h4>${value}</h4>"
+        });
     }
 
     document.addEventListener("deviceready", initialize);
-    
+
     return {
-        init: initMain
+        init: initMain,
+        doprice: function () {
+
+        }
     }
 
 }());

@@ -1,24 +1,76 @@
 .header {
     background-color: #363636 !important;
-  	color: whitesmoke !important;
+    color: whitesmoke !important;
 }
-
 .km-filter:before,
 .km-filter:after {
     content: "\e077"
 }
-
 .km-sale:before,
 .km-sale:after {
     content: "\e0c4"
 }
-
 .km-basket:before,
 .km-basket:after {
     content: "\e0d1"
 }
-
 .km-flat .km-list>li {
     background-color: black;
-    color: whitesmoke !important;
+    color: whitesmoke;
+    font-weight: normal;
+}
+.km-flat,
+.km-flat .km-navbar,
+.km-flat .km-detail,
+.km-flat .km-content {
+    color: whitesmoke;
+    background-color: black;
+}
+.km-flat .km-group-title {
+    background-color: black;
+    color: whitesmoke;
+    text-align: center;
+}
+.items {
+    float: left;
+    font-weight: normal;
+    margin: 5px 5px 5px 5px;
+}
+.prices {
+    float: right !important;
+    border-color: whitesmoke !important;
+    border-width: 0.1em !important;
+    border-radius: 5px !important;
+    margin-right: 0 !important;
+}
+.prices:hover {
+    float: right !important;
+    border-color: black !important;
+    border-width: 0.1em !important;
+    border-radius: 5px !important;
+    margin-right: 0 !important;
+    background-color: whitesmoke !important;
+    color: black !important;
+}
+.km-flat .km-loader,
+.km-flat .km-rowinsert,
+.km-flat .km-state-active,
+.km-flat .km-scroller-pull,
+.km-flat .k-slider-selection,
+.km-flat .km-touch-scrollbar,
+.km-flat .km-pages .km-current-page,
+.km-flat .k-slider .k-draghandle,
+.km-flat .k-slider .k-draghandle:hover,
+.km-flat .km-tabstrip .km-state-active,
+.km-flat .km-scroller-refresh.km-load-more,
+.km-flat .km-popup .k-state-hover,
+.km-flat .km-popup .k-state-focused,
+.km-flat .km-popup .k-state-selected,
+.km-flat .km-actionsheet > li > a:active,
+.km-flat .km-actionsheet > li > a:hover,
+.km-flat li.km-state-active .km-listview-link,
+.km-flat li.km-state-active .km-listview-label,
+.km-flat .km-listview-label input[type=radio]:checked,
+.km-flat .km-listview-label input[type=checkbox]:checked {
+    background-color: black;
 }
