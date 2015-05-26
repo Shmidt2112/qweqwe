@@ -1,16 +1,38 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title></title>
     <meta charset="utf-8" />
     <link href="kendo/styles/kendo.mobile.all.min.css" rel="stylesheet" />
-
+    <link href="styles/main.css" rel="stylesheet" />
     <script src="cordova.js"></script>
     <script src="kendo/js/jquery.min.js"></script>
     <script src="kendo/js/kendo.mobile.min.js"></script>
-    
+    <script src="scripts/app.js"></script>
 </head>
+
 <body>
-    
+    <div data-role="layout" data-id="main-layout">
+        <div data-role="header">
+            <div data-role="navbar" class="header">
+                <span data-role="view-title"></span>
+                <a data-role="button" data-align="left" data-icon="filter"></a>
+                <a data-role="button" data-align="left" style="color:#EEB422" data-icon="sale"></a>
+                <a data-role="button" data-align="right"  style="color:#EEB422" data-icon="basket">24 P</a>
+            </div>
+        </div>
+    </div>
+    <div data-role="view" id="main-view" data-layout="main-layout" data-title="Аями" data-init="app.init">
+        <div style="background-color: black !important;">
+            <ul id="main-list"></ul>
+        </div>
+    </div>
+    <script type="text/x-kendo-template" id="main-template">
+        <img src="${url}" />
+        <h3>${name} ${price}р</h3>
+        <p>${description}</p>
+    </script>
 </body>
+
 </html>

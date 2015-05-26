@@ -5,7 +5,7 @@
   "AppIdentifier": "com.telerik.AyamyApp",
   "DisplayName": "Ayamy App",
   "Author": "",
-  "Description": "",
+  "Description": "Ayamy App",
   "BundleVersion": "1.0",
   "AndroidVersionCode": "1",
   "iOSDeviceFamily": [
