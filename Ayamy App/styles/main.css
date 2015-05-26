@@ -1,0 +1,19 @@
+.header {
+    background-color: #363636 !important;
+  	color: whitesmoke !important;
+}
+
+.km-filter:before,
+.km-filter:after {
+    content: "\e077"
+}
+
+.km-sale:before,
+.km-sale:after {
+    content: "\e0c4"
+}
+
+.km-basket:before,
+.km-basket:after {
+    content: "\e0d1"
+}
