@@ -17,3 +17,8 @@
 .km-basket:after {
     content: "\e0d1"
 }
+
+.km-flat .km-list>li {
+    background-color: black;
+    color: whitesmoke !important;
+}
