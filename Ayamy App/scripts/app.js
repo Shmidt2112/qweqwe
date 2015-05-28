@@ -1,8 +1,14 @@
 var app = (function () {
 
-    var dataSource,
+    var dataSource, sum, curId,
         mobileApp = {},
-        purchase = [];
+        purchase = [],
+        Item = function (id, price) {
+            this.id = id;
+            this.price = price;
+            this.count = 1;
+            this.total = price;
+        };
 
     var groupedData = [
         {
@@ -11,7 +17,8 @@ var app = (function () {
             description: "Зелень, украшеная свежими сашими, васаби, соевый винегрет.",
             url: "images/sashimi-salad.jpg",
             price: 170,
-            letter: "Роллы"
+            letter: "Роллы",
+            hash: "rolls"
             },
         {
             id: 1,
@@ -19,7 +26,8 @@ var app = (function () {
             description: "Салат из морепродуктов.",
             url: "images/seaweed-salad.jpg",
             price: 290,
-            letter: "Роллы"
+            letter: "Роллы",
+            hash: "rolls"
             },
         {
             id: 2,
@@ -27,7 +35,8 @@ var app = (function () {
             description: "Вареные соевые бобы с солью.",
             url: "images/edamame.jpg",
             price: 120,
-            letter: "Роллы"
+            letter: "Роллы",
+            hash: "rolls"
             },
         {
             id: 3,
@@ -35,7 +44,8 @@ var app = (function () {
             description: "Кусочки тунца.",
             url: "images/maguro.jpg",
             price: 150,
-            letter: "Роллы"
+            letter: "Суши",
+            hash: "sushi"
             },
         {
             id: 4,
@@ -43,7 +53,8 @@ var app = (function () {
             description: "Тунец-ролл с васаби.",
             url: "images/tekka-maki.jpg",
             price: 240,
-            letter: "Роллы"
+            letter: "Суши",
+            hash: "sushi"
             },
         {
             id: 5,
@@ -51,7 +62,8 @@ var app = (function () {
             description: "Крабовые палочки, авокадо и огурец.",
             url: "images/california-rolls.jpg",
             price: 250,
-            letter: "Роллы"
+            letter: "Суши",
+            hash: "sushi"
             }
     ];
 
@@ -62,7 +74,12 @@ var app = (function () {
         });
 
         dataSource = new kendo.data.DataSource({
-            data: groupedData
+            data: groupedData,
+            schema: {
+                model: {
+                    id: "id"
+                }
+            }
         });
     }
 
@@ -75,24 +92,17 @@ var app = (function () {
             filterable: {
                 field: "name",
                 operator: "startswith",
-                placeholder: "Поиск..."
+                placeholder: "поиск..."
             },
             template: $("#main-template").html(),
             headerTemplate: "<h4 style='color:gray'>${value}</h4>"
         });
     }
 
-    var Item = function (id, price) {
-        this.id = id;
-        this.price = price;
-        this.count = 1;
-        this.total = price;
-    }
-
+    //Подводим итог
     function agregate() {
-        //Подводим итог
         //Суммируем все елементы массива и заносим в корзину
-        var sum = 0;
+        sum = 0;
         for (var j = 0; j < purchase.length; j++) {
             sum += purchase[j].total;
         }
@@ -101,9 +111,8 @@ var app = (function () {
 
     function plus(e) {
         //Получаем текущий объект по id
-        var id = $(e.target).prev().data("id");
         for (var i = 0; i < purchase.length; i++) {
-            if (purchase[i].id === id) {
+            if (purchase[i].id === $(e.target).prev().data("id")) {
                 //Увеличиваем на кол-во на 1
                 purchase[i].count++;
                 //Заносим в текущий элемент
@@ -117,10 +126,8 @@ var app = (function () {
     }
 
     function minus(e) {
-        //Получаем текущий объект по id
-        var id = $(e.target).next().data("id");
         for (var i = 0; i < purchase.length; i++) {
-            if (purchase[i].id === id) {
+            if (purchase[i].id === $(e.target).next().data("id")) {
                 if (purchase[i].count > 1) {
                     //Уменьшаем кол-во на 1
                     purchase[i].count--;
@@ -136,12 +143,10 @@ var app = (function () {
     }
 
     function doPrice(e) {
-        
-        var curId = $(e.target).data("id");
-        
+        curId = $(e.target).data("id");
         //Если цена выделена
         if (!$(e.target).data("on")) {
-			var item = new Item(curId, $(e.target).data("price"))
+            var item = new Item(curId, $(e.target).data("price"))
             purchase.push(item);
             //price += item.price;
             //Добавляем сразу в корзину
@@ -167,22 +172,27 @@ var app = (function () {
         $("p.description").toggleClass("description-left");
     }
 
-    function toBasket () {
+    function toMain() {
+        mobileApp.navigate("#main-view#rools", "slide");
+    }
+
+    function toBasket() {
         mobileApp.navigate("#basket", "slide");
     }
-    
-    function toFilter () {
+
+    function toFilter() {
         mobileApp.navigate("#filterView", "slide");
+        // mobileApp.navigate("views/groups.html");
     }
-    
-    function filterViewInit () {
+
+    function filterViewInit() {
         var listviews = this.element.find("ul.km-listview");
 
         $("#select-filter").kendoMobileButtonGroup({
-            select: function(e) {
+            select: function (e) {
                 listviews.hide()
-                         .eq(e.index)
-                         .show();
+                    .eq(e.index)
+                    .show();
             },
             index: 0
         });
@@ -195,6 +205,7 @@ var app = (function () {
         doPrice: doPrice,
         p: plus,
         m: minus,
+        goMain: toMain,
         goBasket: toBasket,
         goFilter: toFilter,
         filterViewInit: filterViewInit
