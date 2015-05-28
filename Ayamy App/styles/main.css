@@ -43,15 +43,16 @@
     border-radius: 5px !important;
     margin-right: 0 !important;
 }
-.prices:hover {
+.prices-clicked {
     float: right !important;
-    border-color: black !important;
+    border-color: whitesmoke !important;
     border-width: 0.1em !important;
     border-radius: 5px !important;
     margin-right: 0 !important;
     background-color: whitesmoke !important;
     color: black !important;
 }
+
 .km-flat .km-loader,
 .km-flat .km-rowinsert,
 .km-flat .km-state-active,
