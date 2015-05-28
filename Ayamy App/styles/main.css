@@ -33,8 +33,9 @@
 }
 .items {
     float: left;
-    font-weight: normal;
-    margin: 5px 5px 5px 5px;
+    font-weight: normal; 
+    width: 40%;
+    margin-left: 15px;
 }
 .prices {
     float: right !important;
@@ -53,12 +54,14 @@
     color: black !important;
 }
 .description {
-    margin-left: 80px !important;
+    float: left;
+    width: 40%;
     color: grey;
+    margin-right: 0px !important;
 }
-.description-left {
-    margin-left: 0px !important;
-    color: grey;
+.left {
+   margin-left: 0px !important;
+   color: grey;
 }
 input[type=search] {
     background-color: gray !important;

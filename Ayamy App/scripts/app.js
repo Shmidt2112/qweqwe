@@ -14,7 +14,7 @@ var app = (function () {
         {
             id: 0,
             name: "Sashimi Salad",
-            description: "Зелень, украшеная свежими сашими, васаби, соевый винегрет.",
+            description: "Зелень, лосось, васаби, арахис, чернозем",
             url: "images/sashimi-salad.jpg",
             price: 170,
             letter: "Роллы",
@@ -22,7 +22,7 @@ var app = (function () {
             },
         {
             id: 1,
-            name: "Seaweed Salad bla bla bla",
+            name: "Seaweed Salad",
             description: "Салат из морепродуктов.",
             url: "images/seaweed-salad.jpg",
             price: 290,
@@ -167,9 +167,12 @@ var app = (function () {
 
         //Применяем эффекты
         $(e.target).toggleClass("prices-clicked");
+        console.log(e.target);
         $("#" + curId).slideToggle("normal");
+        console.log("#" + curId);
         $("#img" + curId).fadeToggle("normal");
-        $("p.description").toggleClass("description-left");
+        console.log("#img" + curId);
+        $("p.description").toggleClass("description-left"); 
     }
 
     function toMain() {
