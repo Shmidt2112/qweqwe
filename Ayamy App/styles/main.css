@@ -53,8 +53,31 @@
     color: black !important;
 }
 .description {
-    margin-left: 85px !important;
+    margin-left: 80px !important;
     color: grey;
+}
+.description-left {
+    margin-left: 0px !important;
+    color: grey;
+}
+input[type=search] {
+    background-color: gray !important;
+    color: whitesmoke !important;
+    border-radius: 10px !important;
+    font-weight: normal !important;
+    font-size: 12px !important;
+    height: 35px;
+    text-align: center;
+}
+
+#leftL {
+    border-color: whitesmoke;
+    border-radius: 10px 0px 0px 10px;
+}
+
+#rightL {
+    border-color: whitesmoke;
+    border-radius: 0px 10px 10px 0px;
 }
 
 .km-flat .km-loader,
