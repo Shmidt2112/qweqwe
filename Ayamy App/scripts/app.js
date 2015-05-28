@@ -74,7 +74,7 @@ var app = (function () {
                 group: "letter"
             }),
             template: $("#main-template").html(),
-            headerTemplate: "<h4>${value}</h4>"
+            headerTemplate: "<h4 style='color:gray'>${value}</h4>"
         });
     }
 
@@ -117,10 +117,12 @@ var app = (function () {
         price = $(e.target).data("price");
         //Если цена выделена
         if (!$(e.target).data("on")) {
+            //Здесь заносить в масив покупок id и цену
             //Общая стоимость
             total += price;
             $(e.target).data("on", true);
         } else {
+            //Здесь находить по id кол-во покупок по текущему итему
             if (total - price * count > 0) {
                 total -= price * count;
                 $(countEl).text(1);
@@ -134,6 +136,10 @@ var app = (function () {
         $(e.target).toggleClass("prices-clicked");
         $("#" + $(e.target).data("id")).slideToggle("normal");
     }
+    
+    function toBasket() {
+        mobileApp.navigate("#basket", "slide");
+    }
 
     document.addEventListener("deviceready", initialize);
 
@@ -141,7 +147,8 @@ var app = (function () {
         init: initMain,
         doPrice: doPrice,
         p: plus,
-        m: minus
+        m: minus,
+        goBasket: toBasket
     }
 
 }());

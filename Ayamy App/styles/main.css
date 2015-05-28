@@ -52,6 +52,10 @@
     background-color: whitesmoke !important;
     color: black !important;
 }
+.description {
+    margin-left: 85px !important;
+    color: grey;
+}
 
 .km-flat .km-loader,
 .km-flat .km-rowinsert,

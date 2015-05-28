@@ -19,12 +19,16 @@
                 <span data-role="view-title"></span>
                 <a data-role="button" data-align="left" data-icon="filter"></a>
                 <a data-role="button" data-align="left" style="color:#EEB422" data-icon="sale"></a>
-                <a data-role="button" data-align="right" style="color:#EEB422" data-icon="basket"><span id="basket">0</span> P</a>
+                <a data-role="button" data-click="app.goBasket" data-align="right" style="color:#EEB422" data-icon="basket"><span id="basket">0</span> P</a>
             </div>
         </div>
     </div>
     <div data-role="view" id="main-view" data-layout="main-layout" data-title="Аями" data-init="app.init">
         <ul id="main-list"></ul>
+    </div>
+    <div data-role="view" id="basket">
+        <a data-role="backbutton" data-icon="home">Назад</a>
+        <a data-role="button" class="prices">Доставка</a>
     </div>
     <script type="text/x-kendo-template" id="main-template">
         <img src="${url}" style="float:left;" />
@@ -32,7 +36,8 @@
         <h4 class="prices">
         	<a data-role="button" class="prices" data-click="app.doPrice" data-on="false" data-id="${id}" data-price="${price}">${price} Р</a>
         </h4>
-        <p>${description}</p>
+        <br>
+        <p class="description">${description}</p>
         <div id="${id}" style="display:none;float:right;">
             <a data-role="button" data-click="app.m">-</a><span data-price="${price}">1</span><a data-role="button" data-click="app.p">+</a>
         </div>
