@@ -1,6 +1,6 @@
 var app = (function () {
 
-    var dataSource, sum, curId,
+    var dataSource, sum, curId, timer,
         mobileApp = {},
         purchase = [],
         Item = function (id, price) {
@@ -141,7 +141,8 @@ var app = (function () {
         }
         agregate();
     }
-
+	
+	var directionAnimate=0;
     function doPrice(e) {
         curId = $(e.target).data("id");
         //Если цена выделена
@@ -167,12 +168,35 @@ var app = (function () {
 
         //Применяем эффекты
         $(e.target).toggleClass("prices-clicked");
-        console.log(e.target);
+        //$(e.target).slideToggle("normal"); 
         $("#" + curId).slideToggle("normal");
-        console.log("#" + curId);
-        $("#img" + curId).fadeToggle("normal");
-        console.log("#img" + curId);
-        $("p.description").toggleClass("description-left"); 
+        //$("#img" + curId).fadeToggle("normal");  
+        timer = setInterval( animation, 10, curId);
+    }
+    function animation(id) {        
+        var obj = $("#img" + curId);
+        var w = parseInt($(obj).css('width'));  ///определим текущую ширину блока 
+        
+        if(w == 75 && directionAnimate==1){	///если нет, разрушим интервал (перестанем вызывать функцию animation()) 
+            directionAnimate = 0;
+            clearInterval(timer);
+        }
+        
+        if (w >0 && directionAnimate==0) { 	///если ширина >  0, уменьшаем ширину блока на 5px
+            $(obj).css('width', w - 5 + "px");   
+            $(obj).css('height', 75 +"px");
+        }  
+        
+        if (w<75 && directionAnimate==1 ) ///если ширина < 75, уменьшаем ширину блока на 5px
+        { 
+            $(obj).css('width', w + 5 + "px");   
+            $(obj).css('height', 75 +"px"); 
+        }
+        
+        if(w == 0 && directionAnimate==0){	///если нет, разрушим интервал (перестанем вызывать функцию animation()) 
+            directionAnimate = 1;
+            clearInterval(timer);
+        }     
     }
 
     function toMain() {
