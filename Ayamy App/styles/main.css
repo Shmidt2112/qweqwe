@@ -35,7 +35,7 @@
     float: left;
     font-weight: normal; 
     width: 40%;
-    margin-left: 15px;
+    margin-left: 15px; 
 }
 .prices {
     float: right !important;
@@ -56,20 +56,22 @@
 .description {
     float: left;
     width: 40%;
-    color: grey;
+    color: rgb(153, 147, 147);
     margin-right: 0px !important;
+    margin: 0px;
+    font-size: 0.8em;
 }
 .left {
    margin-left: 0px !important;
    color: grey;
 }
 input[type=search] {
-    background-color: gray !important;
+    background-color: dimgray !important;
     color: whitesmoke !important;
     border-radius: 10px !important;
     font-weight: normal !important;
     font-size: 12px !important;
-    height: 35px;
+    height: 30px;
     text-align: center;
 }
 
@@ -105,3 +107,30 @@ input[type=search] {
 .km-flat .km-listview-label input[type=checkbox]:checked {
     background-color: black;
 }
+.km-list>li{
+    padding: 0px;
+}
+li>div{
+    border: 1px solid;
+    border-radius: 10px;
+    margin-top: 20px;
+    height: 40px;
+}
+li>div>a{
+    margin: 0px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+li>div>a:nth-child(1) {
+    border-right: 1px solid
+}
+li>div>a::nth-child(2) {
+    border-left: 1px solid
+}
+.km-flat .km-list>li{
+    border-style: none;
+}
+li>div>span{
+    padding: 10px;
+}
+
