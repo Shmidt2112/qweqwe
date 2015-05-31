@@ -18,18 +18,13 @@
             <div data-role="navbar" class="header">
                 <span data-role="view-title"></span>
                 <a data-role="button" data-click="app.goFilter" data-align="left" data-icon="filter"></a>
-                <a data-role="button" data-align="left" data-rel="popover" href="#sale" style="color:#EEB422" data-icon="info"></a>
+                <a data-role="button" data-align="left" data-rel="popover" href="#sale" style="color:#EEB422" data-icon="sale"></a>
                 <a data-role="button" data-click="app.goBasket" data-align="right" style="color:#EEB422" data-icon="basket"><span id="basket">0</span> P</a>
             </div>
         </div>
     </div>
-    <div data-role="view" id="main-view" data-layout="main-layout" data-title="Аями" data-init="app.init" data-show="app.show" data-hide="app.hide" data-reload="false">
-        <div id="sale" data-role="popover" data-popup='{"height": "16em", "width": "20em"}'>
-            <div data-role="view" data-title="Скидка">
-                <h2 style="color:#EEB422">При заказе от 1000 рублей предоставляется скидка 5%</h2>
-            </div>
-        </div>
-        <ul id="main-list" data-style="inset"></ul>
+    <div data-role="view" id="main-view" data-layout="main-layout" data-title="Аями" data-init="app.init">
+        <ul id="main-list"></ul>
     </div>
     <div data-role="view" id="filterView" data-init="app.filterViewInit">
         <div class="head">&nbsp;</div>
@@ -42,63 +37,27 @@
             </li>
         </ul>
         <ul data-role="listview" data-style="inset">
-            <li><a data-role="button" href="#main-view?hash=new">New</a>
+            <li><a data-role="button" href="#main-view#h1">Суши</a>
             </li>
-            <li><a data-role="button" href="#main-view?hash=sushi">Суши</a>
+            <li>Супы</li>
+            <li><a data-role="button" href="#main-view#h1">Роллы</a>
             </li>
-            <li><a data-role="button" href="#main-view?hash=soups">Супы</a>
-            </li>
-            <li><a data-role="button" href="#main-view?hash=rolls">Роллы</a>
-            </li>
-            <li><a data-role="button" href="#main-view?hash=salads">Салаты</a>
-            </li>
+            <li>Салаты</li>
+            <li>Нори</li>
         </ul>
         <ul data-role="listview" data-style="inset" style="display:none">
-            <li><a data-role="button" href="#main-view?item=лосось">Лосось</a>
-            </li>
-            <li><a data-role="button" href="#main-view?item=угрь">Угрь</a>
-            </li>
-            <li><a data-role="button" href="#main-view?item=краб">Мясо краба</a>
-            </li>
-            <li><a data-role="button" href="#main-view?item=креветки">Креветки</a>
-            </li>
+            <li>Лосось</li>
+            <li>Угрь</li>
+            <li>Мясо краба</li>
+            <li>Креветки</li>
         </ul>
     </div>
+    <!--<div id="sale" data-role="popover">
+        dasd
+    </div>-->
     <div data-role="view" id="basket">
         <a data-role="backbutton" data-icon="home">Назад</a>
-        <div style="margin-top:20px;margin-left:20px;">
-            <a data-role="button" class="delivery" href="#submModal" data-rel="modalview">Доставка</a>
-        </div>
-    </div>
-    <div id="submModal" data-role="modalview" style="width: 90%;" data-title="Данные" data-model="submView">
-        <div data-role="header">
-            <div data-role="navbar">
-                <span>Данные</span>
-            </div>
-        </div>
-        <ul data-role="listview" data-style="inset">
-            <li>
-                <label for="name">Имя:
-                    <input type="text" id="tel" placeholder="Ваше имя" />
-                </label>
-            </li>
-            <li>
-                <label for="tel">Телефон:
-                    <input type="text" id="tel" placeholder="Телефон" />
-                </label>
-            </li>
-            <li>
-                <label for="adress">Адрес:
-                    <input type="text" id="adress" placeholder="Адрес" />
-                </label>
-            </li>
-        </ul>
-        <div data-role="footer">
-            <div data-role="navbar">
-                <a data-click="app.mClose" data-role="button" data-align="left">Отмена</a>
-                <a data-click="app.mSubm" data-role="button" data-align="right">Готово</a>
-            </div>
-        </div>
+        <a data-role="button" class="prices">Доставка</a>
     </div>
     <script type="text/x-kendo-template" id="main-template">
         <img src="${url}" style="float:left;" id="img${id}" data-direct="0" />
