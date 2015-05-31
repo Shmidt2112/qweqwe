@@ -1,6 +1,6 @@
 var app = (function () {
 
-    var dataSource, sum, curId,
+    var dataSource, sum, curId, listviews,
         mobileApp = {},
         purchase = [],
         Item = function (id, price) {
@@ -67,35 +67,67 @@ var app = (function () {
             }
     ];
 
-    function initialize() {
+    dataSource = new kendo.data.DataSource({
+        data: groupedData,
+        group: "letter",
+        filter: {
+            field: "name",
+            operator: "startswith",
+            value: ""
+        }
+    });
 
+    function initialize() {
         mobileApp = new kendo.mobile.Application(document.body, {
             skin: "flat"
-        });
-
-        dataSource = new kendo.data.DataSource({
-            data: groupedData,
-            schema: {
-                model: {
-                    id: "id"
-                }
-            }
         });
     }
 
     function initMain() {
+        //Устанавливаем начальный список
         $("#main-list").kendoMobileListView({
-            dataSource: kendo.data.DataSource.create({
-                data: groupedData,
-                group: "letter"
-            }),
+            dataSource: dataSource,
             filterable: {
                 field: "name",
                 operator: "startswith",
                 placeholder: "поиск..."
             },
             template: $("#main-template").html(),
-            headerTemplate: "<h4 style='color:gray'>${value}</h4>"
+            headerTemplate: "<h4 id='#= data.items[0].hash #' style='color:gray'>${value}</h4>"
+        });
+    }
+
+    function showMain(e) {
+        //Определяем тип параметра либо хэш либо ингредиент
+        if (e.view.params.hasOwnProperty("hash")) {
+            var el = $("#" + e.view.params.hash);
+            //Если элемент существует
+            if (el.hasOwnProperty("length")) {
+                //Получаем позицию элемента
+                var pos = el.offset();
+                //Устанавливаем скролл на эту позицию
+                e.view.element.find(".km-scroll-container").css("-webkit-transform", "translate3d(0px, -" + (pos.top - 70) + "px, 0px) scale(1)");
+            }
+        } else if (e.view.params.hasOwnProperty("item")) {
+            //Фильтруем существующий список по терму
+            dataSource.filter({
+                field: "description",
+                operator: "contains",
+                ignoreCase: true,
+                value: e.view.params.item
+            });
+        }
+    }
+
+    function hideMain(e) {
+        //Устанавливаем скрол в первоначальную позицию
+        e.view.element.find(".km-scroll-container").css("-webkit-transform", "translate3d(0px, 0px, 0px) scale(1)");
+        //Сбрасываем фильтр в начальное состояние
+        dataSource.filter({
+            field: "name",
+            operator: "startswith",
+            value: "",
+            placeholder: "поиск..."
         });
     }
 
@@ -182,12 +214,11 @@ var app = (function () {
 
     function toFilter() {
         mobileApp.navigate("#filterView", "slide");
-        // mobileApp.navigate("views/groups.html");
     }
 
     function filterViewInit() {
-        var listviews = this.element.find("ul.km-listview");
-
+        listviews = this.element.find("ul.km-listview");
+        //Инициализируем список с фильтрами
         $("#select-filter").kendoMobileButtonGroup({
             select: function (e) {
                 listviews.hide()
@@ -198,17 +229,30 @@ var app = (function () {
         });
     }
 
+    function mClose() {
+        $("#submModal").kendoMobileModalView("close");
+    }
+
+    function mSubm() {
+       // mobileApp.navigate("views/ready.html", "fade");
+        $("#submModal").kendoMobileModalView("close");
+    }
+
     document.addEventListener("deviceready", initialize);
 
     return {
         init: initMain,
+        show: showMain,
+        hide: hideMain,
         doPrice: doPrice,
         p: plus,
         m: minus,
         goMain: toMain,
         goBasket: toBasket,
         goFilter: toFilter,
-        filterViewInit: filterViewInit
+        filterViewInit: filterViewInit,
+        mClose: mClose,
+        mSubm: mSubm
     }
 
 }());
