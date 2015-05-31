@@ -211,7 +211,7 @@ var app = (function () {
         //$("#" + curId).slideToggle("normal");
         $("#" + curId).css("display", "block");
         //$("#img" + curId).fadeToggle("normal");   
-        timer = setInterval(animationImg, 20, curId);
+        timer = setInterval(animationImg, 20, curId); 
     }
 
     function animationImg(id) {
