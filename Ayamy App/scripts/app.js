@@ -1,6 +1,6 @@
 var app = (function () {
 
-    var dataSource, sum, curId, timer,
+    var dataSource, sum, curId, listviews,
         mobileApp = {},
         purchase = [],
         Item = function (id, price) {
@@ -14,7 +14,7 @@ var app = (function () {
         {
             id: 0,
             name: "Sashimi Salad",
-            description: "Зелень, лосось, васаби, арахис, чернозем",
+            description: "Зелень, украшеная свежими сашими, васаби, соевый винегрет.",
             url: "images/sashimi-salad.jpg",
             price: 170,
             letter: "Роллы",
@@ -22,7 +22,7 @@ var app = (function () {
             },
         {
             id: 1,
-            name: "Seaweed Salad",
+            name: "Seaweed Salad bla bla bla",
             description: "Салат из морепродуктов.",
             url: "images/seaweed-salad.jpg",
             price: 290,
@@ -67,35 +67,67 @@ var app = (function () {
             }
     ];
 
-    function initialize() {
+    dataSource = new kendo.data.DataSource({
+        data: groupedData,
+        group: "letter",
+        filter: {
+            field: "name",
+            operator: "startswith",
+            value: ""
+        }
+    });
 
+    function initialize() {
         mobileApp = new kendo.mobile.Application(document.body, {
             skin: "flat"
-        });
-
-        dataSource = new kendo.data.DataSource({
-            data: groupedData,
-            schema: {
-                model: {
-                    id: "id"
-                }
-            }
         });
     }
 
     function initMain() {
+        //Устанавливаем начальный список
         $("#main-list").kendoMobileListView({
-            dataSource: kendo.data.DataSource.create({
-                data: groupedData,
-                group: "letter"
-            }),
+            dataSource: dataSource,
             filterable: {
                 field: "name",
                 operator: "startswith",
                 placeholder: "поиск..."
             },
             template: $("#main-template").html(),
-            headerTemplate: "<h4 style='color:gray; margin: 5px;'>${value}</h4>"
+            headerTemplate: "<h4 id='#= data.items[0].hash #' style='color:gray'>${value}</h4>"
+        });
+    }
+
+    function showMain(e) {
+        //Определяем тип параметра либо хэш либо ингредиент
+        if (e.view.params.hasOwnProperty("hash")) {
+            var el = $("#" + e.view.params.hash);
+            //Если элемент существует
+            if (el.hasOwnProperty("length")) {
+                //Получаем позицию элемента
+                var pos = el.offset();
+                //Устанавливаем скролл на эту позицию
+                e.view.element.find(".km-scroll-container").css("-webkit-transform", "translate3d(0px, -" + (pos.top - 70) + "px, 0px) scale(1)");
+            }
+        } else if (e.view.params.hasOwnProperty("item")) {
+            //Фильтруем существующий список по терму
+            dataSource.filter({
+                field: "description",
+                operator: "contains",
+                ignoreCase: true,
+                value: e.view.params.item
+            });
+        }
+    }
+
+    function hideMain(e) {
+        //Устанавливаем скрол в первоначальную позицию
+        e.view.element.find(".km-scroll-container").css("-webkit-transform", "translate3d(0px, 0px, 0px) scale(1)");
+        //Сбрасываем фильтр в начальное состояние
+        dataSource.filter({
+            field: "name",
+            operator: "startswith",
+            value: "",
+            placeholder: "поиск..."
         });
     }
 
@@ -110,10 +142,9 @@ var app = (function () {
     }
 
     function plus(e) {
-        //Получаем текущий объект по id    
+        //Получаем текущий объект по id
         for (var i = 0; i < purchase.length; i++) {
             if (purchase[i].id === $(e.target).prev().data("id")) {
-                var a = $(e.target).prev();
                 //Увеличиваем на кол-во на 1
                 purchase[i].count++;
                 //Заносим в текущий элемент
@@ -137,40 +168,6 @@ var app = (function () {
                     //Устанавливаем новую стоимость
                     purchase[i].total = purchase[i].count * purchase[i].price;
                     break;
-                } else {
-                    var button = $(e.target).closest('li').find('a.prices');
-                    //$("#" + $(e.target).next().data("id")).slideToggle("normal");
-                    //var a = $(e.target).data("on");
-                    //Ищем полное кол-во по текущему итему
-                    for (var i = 0; i < purchase.length; i++) {
-                        //if (curId === purchase[i].id) {
-                        if ($(e.target).next().data("id") === purchase[i].id) {
-                            //Удаляем итем из общего массива
-                            purchase.splice(i, 1);
-                            $("span[data-id='" + $(e.target).next().data("id") + "']").text(1);
-                        }
-                    }
-                    //agregate();
-                    $(button).data("on", false);
-                    var directionAnimate = parseInt($("#" + $(e.target).next().data("direct")));
-                    if (directionAnimate == 0) {
-                        $("#" + $(e.target).next().data("id")).fadeToggle("fast");
-                        //setTimeout(function(){ $("#" + $(e.target).next().data("id")).fadeToggle("fast");}, 300);
-                        //$(button).css("display", "block");
-                        //setTimeout(function(){ $(button).fadeToggle("fast");}, 300);
-                        setTimeout(function () {
-                            $(button).fadeToggle("fast");
-                        }, 400);
-                    } else {
-
-                        $("#" + $(e.target).next().data("id")).fadeToggle("fast");
-                        setTimeout(function () {
-                            $(button).fadeToggle("fast");
-                        }, 400);
-                        //$(button).fadeToggle("fast");
-                        //$(button).css("display", "block");
-                    }
-                    timer = setInterval(animationImg, 20, $(e.target).next().data("id"));
                 }
             }
         }
@@ -181,67 +178,30 @@ var app = (function () {
         curId = $(e.target).data("id");
         //Если цена выделена
         if (!$(e.target).data("on")) {
-            var a = $(e.target).data("on");
             var item = new Item(curId, $(e.target).data("price"))
             purchase.push(item);
             //price += item.price;
             //Добавляем сразу в корзину
             agregate();
             $(e.target).data("on", true);
+        } else {
+            //Ищем полное кол-во по текущему итему
+            for (var i = 0; i < purchase.length; i++) {
+                if (curId === purchase[i].id) {
+                    //Удаляем итем из общего массива
+                    purchase.splice(i, 1);
+                    $("span[data-id='" + curId + "']").text(1);
+                }
+            }
+            agregate();
+            $(e.target).data("on", false);
         }
-        //else 
-        //{
-        //    var a = $(e.target).data("on");
-        //Ищем полное кол-во по текущему итему
-        //    for (var i = 0; i < purchase.length; i++) {
-        //        if (curId === purchase[i].id) {
-        //            //Удаляем итем из общего массива
-        //            purchase.splice(i, 1);
-        //            $("span[data-id='" + curId + "']").text(1);
-        //        }
-        //    }
-        //    agregate();
-        //   $(e.target).data("on", false);
-        //}
 
         //Применяем эффекты
-        //$(e.target).toggleClass("prices-clicked");
-        $(e.target).css("display", "none");
-        //$(e.target).slideToggle("normal"); 
-        //$("#" + curId).slideToggle("normal");
-        $("#" + curId).css("display", "block");
-        //$("#img" + curId).fadeToggle("normal");   
-        timer = setInterval(animationImg, 20, curId); 
-    }
-
-    function animationImg(id) {
-        var obj = $("#img" + id);
-        var w = $(obj).width();
-        var directionAnimate = parseInt($("#img" + id).data("direct"));
-
-        if (w > 0 && directionAnimate == 0) { ///если ширина >  0, уменьшаем ширину блока на 5px 
-            $(obj).css('width', w - 15 + "px");
-            $(obj).css('height', 75 + "px");
-        }
-
-        if (w < 75 && directionAnimate == 1) ///если ширина < 75, уменьшаем ширину блока на 5px
-        {
-            $(obj).css('width', w + 15 + "px");
-            $(obj).css('height', 75 + "px");
-        }
-
-        if (w == 0 && directionAnimate == 0) { ///если нет, разрушим интервал (перестанем вызывать функцию animation()) 
-            directionAnimate = 1;
-            $("#img" + id).data("direct", directionAnimate);
-            clearInterval(timer);
-        }
-
-        if (w == 75 && directionAnimate == 1) { ///если нет, разрушим интервал (перестанем вызывать функцию animation())  
-            directionAnimate = 0;
-            $("#img" + id).data("direct", directionAnimate);
-            clearInterval(timer);
-        }
-
+        $(e.target).toggleClass("prices-clicked");
+        $("#" + curId).slideToggle("normal");
+        $("#img" + curId).fadeToggle("normal");
+        $("p.description").toggleClass("description-left");
     }
 
     function toMain() {
@@ -254,12 +214,11 @@ var app = (function () {
 
     function toFilter() {
         mobileApp.navigate("#filterView", "slide");
-        // mobileApp.navigate("views/groups.html");
     }
 
     function filterViewInit() {
-        var listviews = this.element.find("ul.km-listview");
-
+        listviews = this.element.find("ul.km-listview");
+        //Инициализируем список с фильтрами
         $("#select-filter").kendoMobileButtonGroup({
             select: function (e) {
                 listviews.hide()
@@ -270,17 +229,30 @@ var app = (function () {
         });
     }
 
+    function mClose() {
+        $("#submModal").kendoMobileModalView("close");
+    }
+
+    function mSubm() {
+       // mobileApp.navigate("views/ready.html", "fade");
+        $("#submModal").kendoMobileModalView("close");
+    }
+
     document.addEventListener("deviceready", initialize);
 
     return {
         init: initMain,
+        show: showMain,
+        hide: hideMain,
         doPrice: doPrice,
         p: plus,
         m: minus,
         goMain: toMain,
         goBasket: toBasket,
         goFilter: toFilter,
-        filterViewInit: filterViewInit
+        filterViewInit: filterViewInit,
+        mClose: mClose,
+        mSubm: mSubm
     }
 
 }());
