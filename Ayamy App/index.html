@@ -142,7 +142,7 @@
         <img src="${url}" style="float:left;" id="imgB${id}" data-direct="0" />
         <span class="items">${name}</span>
          <div id="b${id}" style="display:none;float:right;">
-            <a data-role="button" data-click="app.mB">-</a><span data-id="$bs{id}" data-price="${price}">1</span><a data-role="button" data-click="app.pB">+</a>
+            <a data-role="button" data-click="app.mB">-</a><span data-id="${id}" data-price="${price}">${count}</span><a data-role="button" data-click="app.pB">+</a>
         </div>
         <h4 class="prices">
         	<a data-role="button" class="prices" data-click="app.doPriceBasket" data-on="false" data-id="${id}">${count} X ${price} Р</a>

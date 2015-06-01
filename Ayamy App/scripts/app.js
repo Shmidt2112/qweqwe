@@ -4,59 +4,59 @@ var app = (function () {
         mobileApp = {},
         purchase = [],
         groupedData = [
-        {
-            id: 0,
-            name: "Sashimi Salad",
-            description: "Зелень, украшеная свежими сашими, васаби, соевый винегрет.",
-            url: "images/sashimi-salad.jpg",
-            price: 170,
-            letter: "Роллы",
-            hash: "rolls"
+            {
+                id: 0,
+                name: "Sashimi Salad",
+                description: "Зелень, украшеная свежими сашими, васаби, соевый винегрет.",
+                url: "images/sashimi-salad.jpg",
+                price: 170,
+                letter: "Роллы",
+                hash: "rolls"
             },
-        {
-            id: 1,
-            name: "Seaweed Salad",
-            description: "Салат из морепродуктов.",
-            url: "images/seaweed-salad.jpg",
-            price: 290,
-            letter: "Роллы",
-            hash: "rolls"
+            {
+                id: 1,
+                name: "Seaweed Salad",
+                description: "Салат из морепродуктов.",
+                url: "images/seaweed-salad.jpg",
+                price: 290,
+                letter: "Роллы",
+                hash: "rolls"
             },
-        {
-            id: 2,
-            name: "Edamame",
-            description: "Вареные соевые бобы с солью.",
-            url: "images/edamame.jpg",
-            price: 120,
-            letter: "Роллы",
-            hash: "rolls"
+            {
+                id: 2,
+                name: "Edamame",
+                description: "Вареные соевые бобы с солью.",
+                url: "images/edamame.jpg",
+                price: 120,
+                letter: "Роллы",
+                hash: "rolls"
             },
-        {
-            id: 3,
-            name: "Maguro",
-            description: "Кусочки из лосося.",
-            url: "images/maguro.jpg",
-            price: 150,
-            letter: "Суши",
-            hash: "sushi"
+            {
+                id: 3,
+                name: "Maguro",
+                description: "Кусочки из лосося.",
+                url: "images/maguro.jpg",
+                price: 150,
+                letter: "Суши",
+                hash: "sushi"
             },
-        {
-            id: 4,
-            name: "Tekka Maki",
-            description: "Тунец-ролл с васаби.",
-            url: "images/tekka-maki.jpg",
-            price: 240,
-            letter: "Суши",
-            hash: "sushi"
+            {
+                id: 4,
+                name: "Tekka Maki",
+                description: "Тунец-ролл с васаби.",
+                url: "images/tekka-maki.jpg",
+                price: 240,
+                letter: "Суши",
+                hash: "sushi"
             },
-        {
-            id: 5,
-            name: "California",
-            description: "Крабовые палочки, авокадо и огурец.",
-            url: "images/california-rolls.jpg",
-            price: 250,
-            letter: "Суши",
-            hash: "sushi"
+            {
+                id: 5,
+                name: "California",
+                description: "Крабовые палочки, авокадо и огурец.",
+                url: "images/california-rolls.jpg",
+                price: 250,
+                letter: "Суши",
+                hash: "sushi"
             }
     ];
 
@@ -74,15 +74,15 @@ var app = (function () {
             }
         }
     });
-    
+
     var Item = function (id, price, name) {
-            this.id = id;
-        	this.price = dataSource.get(curId).price;
-            this.name = dataSource.get(curId).name;
-            this.count = 1;
-            this.total = dataSource.get(curId).price;
-            this.url = dataSource.get(curId).url;
-        };
+        this.id = id;
+        this.price = dataSource.get(curId).price;
+        this.name = dataSource.get(curId).name;
+        this.count = 1;
+        this.total = dataSource.get(curId).price;
+        this.url = dataSource.get(curId).url;
+    };
 
     function initialize() {
         mobileApp = new kendo.mobile.Application(document.body, {
@@ -263,7 +263,7 @@ var app = (function () {
         curId = $(e.target).data("id");
         //Если цена выделена
         if (!$(e.target).data("on")) {
-           // var a = $(e.target).data("on");
+            // var a = $(e.target).data("on");
             var item = new Item(curId);
             purchase.push(item);
             //price += item.price;
@@ -332,44 +332,87 @@ var app = (function () {
         $("#submModal").kendoMobileModalView("close");
     }
 
-    function initBasket () {
+    function initBasket() {
         $("#basket-list").kendoMobileListView({
             dataSource: purchase,
             template: $("#basket-template").html(),
             headerTemplate: "<h4 style='color:gray;margin:5px;'>${value}</h4>"
         });
+        sumBasket();
+    }
+
+    function sumBasket() {
         var sum = 0;
-        for (var i=0;i<purchase.length;i++) {
+        for (var i = 0; i < purchase.length; i++) {
             sum += purchase[i].total;
         }
-        purchase.length > 0 ? $("#hready").text("Ваш заказ"): $("#hready").text("Корзина пуста");
+        purchase.length > 0 ? $("#hready").text("Ваш заказ") : $("#hready").text("Корзина пуста");
         $("#finish").text(sum);
     }
 
-    function doPriceBasket (e) {
+    function doPriceBasket(e) {
         curId = $(e.target).data("id");
         $(e.target).hide();
-        $("#b" + curId).show(); 
+        $("#b" + curId).show();
     }
-    
-    function back () {
+
+    function back() {
         //Очищаем список покупок
         purchase.length = 0;
         $("#basket").text(0);
     }
-    
-    function ready () {
+
+    function ready() {
         mobileApp.navigate("#ready");
     }
-    
-    function mB () {
-        
+
+    function mB(e) {
+        for (var i = 0; i < purchase.length; i++) {
+            if (purchase[i].id === $(e.target).next().data("id")) {
+                if (purchase[i].count > 1) {
+                    //Уменьшаем кол-во на 1
+                    purchase[i].count--;
+                    //Заносим в текущий элемент
+                    $(e.target).next().text(purchase[i].count);
+                    //Устанавливаем новую стоимость
+                    purchase[i].total = purchase[i].count * purchase[i].price;
+                    break;
+                } else {
+                    for (var i = 0; i < purchase.length; i++) {
+                        //if (curId === purchase[i].id) {
+                        if ($(e.target).next().data("id") === purchase[i].id) {
+                            //Удаляем итем из общего массива
+                            purchase.splice(i, 1);
+                            //curId = $(e.target).next().data("id");
+                            //$("#b" + curId).hide();
+                            $(e.target).closest('li').fadeToggle('fast');
+                        }
+                    }
+                }
+            }
+
+        }
+        agregate();
+        sumBasket();        
     }
-    
-    function pB () {
-        
+
+    function pB(e) {
+        //Получаем текущий объект по id
+        for (var i = 0; i < purchase.length; i++) {
+            if (purchase[i].id === $(e.target).prev().data("id")) {
+                //Увеличиваем на кол-во на 1
+                purchase[i].count++;
+                //Заносим в текущий элемент
+                $(e.target).prev().text(purchase[i].count);
+                //Устанавливаем новую стоимость
+                purchase[i].total = purchase[i].count * purchase[i].price;
+                break;
+            }
+        }
+        agregate();
+        sumBasket();
     }
-    
+
     document.addEventListener("deviceready", initialize);
 
     return {
