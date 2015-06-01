@@ -36,15 +36,13 @@
     font-weight: normal; 
     width: 40%;
     margin-left: 15px; 
-    margin-top: 3px;
-    margin-bottom: 3px;
 }
 .prices {
     float: right !important;
     border-color: whitesmoke !important;
     border-width: 0.1em !important;
     border-radius: 5px !important;
-    margin-right: 7px !important;
+    margin-right: 0 !important;
 }
 .prices-clicked {
     float: right !important;
@@ -61,17 +59,11 @@
     color: rgb(153, 147, 147);
     margin-right: 0px !important;
     margin: 0px;
-    margin-bottom: 3px;
     font-size: 0.8em;
 }
 .left {
    margin-left: 0px !important;
    color: grey;
-}
-.delivery {
-    border-color: whitesmoke !important;
-    border-width: 0.1em !important;
-    border-radius: 5px !important
 }
 input[type=search] {
     background-color: dimgray !important;
@@ -81,6 +73,12 @@ input[type=search] {
     font-size: 12px !important;
     height: 30px;
     text-align: center;
+}
+.delivery {
+   border-color: whitesmoke !important;
+    border-width: 0.1em !important;
+    border-radius: 5px !important;
+    margin-right: 0 !important;
 }
 
 #leftL {
@@ -140,8 +138,5 @@ li>div>a::nth-child(2) {
 }
 li>div>span{
     padding: 10px;
-}
-.km-group-title{
-    margin-top: 0px;
 }
 
