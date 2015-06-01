@@ -117,6 +117,7 @@ input[type=search] {
 }
 .km-list>li{
     padding: 0px;
+    line-height: 2.6em;
 }
 li>div{
     border: 1px solid;
