@@ -33,15 +33,18 @@
 }
 .items {
     float: left;
-    font-weight: normal;
-    margin: 5px 5px 5px 5px;
+    font-weight: normal; 
+    width: 40%;
+    margin-left: 15px; 
+    margin-top: 3px;
+    margin-bottom: 3px;
 }
 .prices {
     float: right !important;
     border-color: whitesmoke !important;
     border-width: 0.1em !important;
     border-radius: 5px !important;
-    margin-right: 0 !important;
+    margin-right: 7px !important;
 }
 .prices-clicked {
     float: right !important;
@@ -53,27 +56,31 @@
     color: black !important;
 }
 .description {
-    margin-left: 80px !important;
-    color: grey;
+    float: left;
+    width: 40%;
+    color: rgb(153, 147, 147);
+    margin-right: 0px !important;
+    margin: 0px;
+    margin-bottom: 3px;
+    font-size: 0.8em;
 }
-.description-left {
-    margin-left: 0px !important;
-    color: grey;
+.left {
+   margin-left: 0px !important;
+   color: grey;
+}
+.delivery {
+    border-color: whitesmoke !important;
+    border-width: 0.1em !important;
+    border-radius: 5px !important
 }
 input[type=search] {
-    background-color: gray !important;
+    background-color: dimgray !important;
     color: whitesmoke !important;
     border-radius: 10px !important;
     font-weight: normal !important;
     font-size: 12px !important;
-    height: 35px;
+    height: 30px;
     text-align: center;
-}
-.delivery {
-   border-color: whitesmoke !important;
-    border-width: 0.1em !important;
-    border-radius: 5px !important;
-    margin-right: 0 !important;
 }
 
 #leftL {
@@ -108,3 +115,33 @@ input[type=search] {
 .km-flat .km-listview-label input[type=checkbox]:checked {
     background-color: black;
 }
+.km-list>li{
+    padding: 0px;
+}
+li>div{
+    border: 1px solid;
+    border-radius: 10px;
+    margin-top: 20px;
+    height: 40px;
+}
+li>div>a{
+    margin: 0px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+li>div>a:nth-child(1) {
+    border-right: 1px solid
+}
+li>div>a::nth-child(2) {
+    border-left: 1px solid
+}
+.km-flat .km-list>li{
+    border-style: none;
+}
+li>div>span{
+    padding: 10px;
+}
+.km-group-title{
+    margin-top: 0px;
+}
+

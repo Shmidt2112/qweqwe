@@ -8,6 +8,7 @@
     <link href="styles/main.css" rel="stylesheet" />
     <script src="cordova.js"></script>
     <script src="kendo/js/jquery.min.js"></script>
+    <script src="http://cdn.kendostatic.com/2015.1.429/js/kendo.all.min.js"></script>
     <script src="kendo/js/kendo.mobile.min.js"></script>
     <script src="scripts/app.js"></script>
 </head>
@@ -27,6 +28,11 @@
         <div id="sale" data-role="popover" data-popup='{"height": "16em", "width": "20em"}'>
             <div data-role="view" data-title="Скидка">
                 <h2 style="color:#EEB422">При заказе от 1000 рублей предоставляется скидка 5%</h2>
+            </div>
+        </div>
+        <div id="qr" data-role="popover" data-popup='{"height": "19em", "width": "19em"}'>
+            <div data-role="view" data-title="QR-cod">
+                <div id="qrCode"></div>
             </div>
         </div>
         <ul id="main-list" data-style="inset"></ul>
@@ -54,7 +60,7 @@
             </li>
         </ul>
         <ul data-role="listview" data-style="inset" style="display:none">
-            <li><a data-role="button" href="#main-view?item=лосось">Лосось</a>
+            <li><a data-role="button" href="#main-view?item=лосос">Лосось</a>
             </li>
             <li><a data-role="button" href="#main-view?item=угрь">Угрь</a>
             </li>
@@ -64,10 +70,27 @@
             </li>
         </ul>
     </div>
-    <div data-role="view" id="basket">
-        <a data-role="backbutton" data-icon="home">Назад</a>
+    <div data-role="view" id="basket" data-show="app.initBasketView">
+        <div data-role="header">
+            <div data-role="navbar">
+                <a data-role="backbutton" data-icon="home" data-align="left" data-click="app.back"></a>
+                <a data-role="button" href="#qr" data-rel="popover" data-align="left">Поделиться</a>
+                <a data-role="button" style="float:right;color:#EEB422" data-click="app.ready" data-icon="basket" data-align="right"><span id="finish"></span> Р</a>
+            </div>
+        </div>
+        <h3 style="text-align:center;color:gray" id="hready">
+        </h3>
+        <ul id="basket-list"></ul>
+    </div>
+    <div data-role="view" id="ready">
+        <div data-role="header">
+            <div data-role="navbar">
+                <a data-role="backbutton" data-icon="home" data-align="left">Назад</a>
+            </div>
+        </div>
         <div style="margin-top:20px;margin-left:20px;">
             <a data-role="button" class="delivery" href="#submModal" data-rel="modalview">Доставка</a>
+            <a data-role="button" class="delivery">Самовывоз</a>
         </div>
     </div>
     <div id="submModal" data-role="modalview" style="width: 90%;" data-title="Данные" data-model="submView">
@@ -101,16 +124,25 @@
         </div>
     </div>
     <script type="text/x-kendo-template" id="main-template">
-        <img src="${url}" style="float:left;" id="img${id}" />
+        <img src="${url}" style="float:left;" id="img${id}" data-direct="0" />
         <span class="items">${name}</span>
-        <h4 class="prices">
-        		<a data-role="button" class="prices" data-click="app.doPrice" data-on="false" data-id="${id}" data-price="${price}">${price} Р</a>
-        </h4>
-        <br>
-        <p class="description">${description}</p>
         <div id="${id}" style="display:none;float:right;">
             <a data-role="button" data-click="app.m">-</a><span data-id="${id}" data-price="${price}">1</span><a data-role="button" data-click="app.p">+</a>
         </div>
+        <h4 class="prices">
+        	<a data-role="button" class="prices" data-click="app.doPrice" data-on="false" data-id="${id}" data-price="${price}">${price} Р</a>
+        </h4>
+        <p class="description">${description}</p>
+    </script>
+    <script type="text/x-kendo-template" id="basket-template">
+        <img src="${url}" style="float:left;" id="imgB${id}" data-direct="0" />
+        <span class="items">${name}</span>
+         <div id="b${id}" style="display:none;float:right;">
+            <a data-role="button" data-click="app.mB">-</a><span data-id="$bs{id}" data-price="${price}">1</span><a data-role="button" data-click="app.pB">+</a>
+        </div>
+        <h4 class="prices">
+        	<a data-role="button" class="prices" data-click="app.doPriceBasket" data-on="false" data-id="${id}">${count} X ${price} Р</a>
+        </h4>
     </script>
 </body>
 

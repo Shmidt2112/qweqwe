@@ -1,16 +1,9 @@
 var app = (function () {
 
-    var dataSource, sum, curId, listviews,
+    var dataSource, sum, curId, listviews, timer,
         mobileApp = {},
         purchase = [],
-        Item = function (id, price) {
-            this.id = id;
-            this.price = price;
-            this.count = 1;
-            this.total = price;
-        };
-
-    var groupedData = [
+        groupedData = [
         {
             id: 0,
             name: "Sashimi Salad",
@@ -22,7 +15,7 @@ var app = (function () {
             },
         {
             id: 1,
-            name: "Seaweed Salad bla bla bla",
+            name: "Seaweed Salad",
             description: "Салат из морепродуктов.",
             url: "images/seaweed-salad.jpg",
             price: 290,
@@ -41,7 +34,7 @@ var app = (function () {
         {
             id: 3,
             name: "Maguro",
-            description: "Кусочки тунца.",
+            description: "Кусочки из лосося.",
             url: "images/maguro.jpg",
             price: 150,
             letter: "Суши",
@@ -74,8 +67,22 @@ var app = (function () {
             field: "name",
             operator: "startswith",
             value: ""
+        },
+        schema: {
+            model: {
+                id: "id"
+            }
         }
     });
+    
+    var Item = function (id, price, name) {
+            this.id = id;
+        	this.price = dataSource.get(curId).price;
+            this.name = dataSource.get(curId).name;
+            this.count = 1;
+            this.total = dataSource.get(curId).price;
+            this.url = dataSource.get(curId).url;
+        };
 
     function initialize() {
         mobileApp = new kendo.mobile.Application(document.body, {
@@ -90,10 +97,15 @@ var app = (function () {
             filterable: {
                 field: "name",
                 operator: "startswith",
-                placeholder: "поиск..."
+                placeholder: "     поиск..."
             },
             template: $("#main-template").html(),
-            headerTemplate: "<h4 id='#= data.items[0].hash #' style='color:gray'>${value}</h4>"
+            headerTemplate: "<h4 id='#= data.items[0].hash #' style='color:gray;margin:5px;'>${value}</h4>"
+        });
+        $("#qrCode").kendoQRCode({
+            value: "https://bit.ly/1GdCozW",
+            size: 240
+                // background: "red"
         });
     }
 
@@ -157,6 +169,36 @@ var app = (function () {
         agregate();
     }
 
+    function animationImg(id) {
+        var obj = $("#img" + id);
+        var w = $(obj).width();
+        var directionAnimate = +$("#img" + id).data("direct");
+
+        if (w > 0 && directionAnimate == 0) { ///если ширина >  0, уменьшаем ширину блока на 5px 
+            $(obj).css('width', w - 15 + "px");
+            $(obj).css('height', 75 + "px");
+        }
+
+        if (w < 75 && directionAnimate == 1) ///если ширина < 75, уменьшаем ширину блока на 5px
+        {
+            $(obj).css('width', w + 15 + "px");
+            $(obj).css('height', 75 + "px");
+        }
+
+        if (w == 0 && directionAnimate == 0) { ///если нет, разрушим интервал (перестанем вызывать функцию animation()) 
+            directionAnimate = 1;
+            $("#img" + id).data("direct", directionAnimate);
+            clearInterval(timer);
+        }
+
+        if (w == 75 && directionAnimate == 1) { ///если нет, разрушим интервал (перестанем вызывать функцию animation())  
+            directionAnimate = 0;
+            $("#img" + id).data("direct", directionAnimate);
+            clearInterval(timer);
+        }
+
+    }
+
     function minus(e) {
         for (var i = 0; i < purchase.length; i++) {
             if (purchase[i].id === $(e.target).next().data("id")) {
@@ -168,6 +210,40 @@ var app = (function () {
                     //Устанавливаем новую стоимость
                     purchase[i].total = purchase[i].count * purchase[i].price;
                     break;
+                } else {
+                    var button = $(e.target).closest('li').find('a.prices');
+                    //$("#" + $(e.target).next().data("id")).slideToggle("normal");
+                    //var a = $(e.target).data("on");
+                    //Ищем полное кол-во по текущему итему
+                    for (var i = 0; i < purchase.length; i++) {
+                        //if (curId === purchase[i].id) {
+                        if ($(e.target).next().data("id") === purchase[i].id) {
+                            //Удаляем итем из общего массива
+                            purchase.splice(i, 1);
+                            $("span[data-id='" + $(e.target).next().data("id") + "']").text(1);
+                        }
+                    }
+                    //agregate();
+                    $(button).data("on", false);
+                    var directionAnimate = parseInt($("#" + $(e.target).next().data("direct")));
+                    if (directionAnimate == 0) {
+                        $("#" + $(e.target).next().data("id")).fadeToggle("fast");
+                        //setTimeout(function(){ $("#" + $(e.target).next().data("id")).fadeToggle("fast");}, 300);
+                        //$(button).css("display", "block");
+                        //setTimeout(function(){ $(button).fadeToggle("fast");}, 300);
+                        setTimeout(function () {
+                            $(button).fadeToggle("fast");
+                        }, 400);
+                    } else {
+
+                        $("#" + $(e.target).next().data("id")).fadeToggle("fast");
+                        setTimeout(function () {
+                            $(button).fadeToggle("fast");
+                        }, 400);
+                        //$(button).fadeToggle("fast");
+                        //$(button).css("display", "block");
+                    }
+                    timer = setInterval(animationImg, 20, $(e.target).next().data("id"));
                 }
             }
         }
@@ -178,31 +254,40 @@ var app = (function () {
         curId = $(e.target).data("id");
         //Если цена выделена
         if (!$(e.target).data("on")) {
-            var item = new Item(curId, $(e.target).data("price"))
+           // var a = $(e.target).data("on");
+            var item = new Item(curId);
             purchase.push(item);
             //price += item.price;
             //Добавляем сразу в корзину
             agregate();
             $(e.target).data("on", true);
-        } else {
-            //Ищем полное кол-во по текущему итему
-            for (var i = 0; i < purchase.length; i++) {
-                if (curId === purchase[i].id) {
-                    //Удаляем итем из общего массива
-                    purchase.splice(i, 1);
-                    $("span[data-id='" + curId + "']").text(1);
-                }
-            }
-            agregate();
-            $(e.target).data("on", false);
         }
+        //else 
+        //{
+        //    var a = $(e.target).data("on");
+        //Ищем полное кол-во по текущему итему
+        //    for (var i = 0; i < purchase.length; i++) {
+        //        if (curId === purchase[i].id) {
+        //            //Удаляем итем из общего массива
+        //            purchase.splice(i, 1);
+        //            $("span[data-id='" + curId + "']").text(1);
+        //        }
+        //    }
+        //    agregate();
+        //   $(e.target).data("on", false);
+        //}
 
         //Применяем эффекты
-        $(e.target).toggleClass("prices-clicked");
-        $("#" + curId).slideToggle("normal");
-        $("#img" + curId).fadeToggle("normal");
-        $("p.description").toggleClass("description-left");
+        //$(e.target).toggleClass("prices-clicked");
+        $(e.target).hide();
+        //$(e.target).slideToggle("normal"); 
+        //$("#" + curId).slideToggle("normal");
+        $("#" + curId).show();
+        //$("#img" + curId).fadeToggle("normal");   
+        timer = setInterval(animationImg, 20, curId);
     }
+
+
 
     function toMain() {
         mobileApp.navigate("#main-view#rools", "slide");
@@ -234,10 +319,48 @@ var app = (function () {
     }
 
     function mSubm() {
-       // mobileApp.navigate("views/ready.html", "fade");
+        // mobileApp.navigate("views/ready.html", "fade");
         $("#submModal").kendoMobileModalView("close");
     }
 
+    function initBasket () {
+        $("#basket-list").kendoMobileListView({
+            dataSource: purchase,
+            template: $("#basket-template").html(),
+            headerTemplate: "<h4 style='color:gray;margin:5px;'>${value}</h4>"
+        });
+        var sum = 0;
+        for (var i=0;i<purchase.length;i++) {
+            sum += purchase[i].total;
+        }
+        purchase.length > 0 ? $("#hready").text("Ваш заказ"): $("#hready").text("Корзина пуста");
+        $("#finish").text(sum);
+    }
+
+    function doPriceBasket (e) {
+        curId = $(e.target).data("id");
+        $(e.target).hide();
+        $("#b" + curId).show(); 
+    }
+    
+    function back () {
+        //Очищаем список покупок
+        purchase.length = 0;
+        $("#basket").text(0);
+    }
+    
+    function ready () {
+        mobileApp.navigate("#ready");
+    }
+    
+    function mB () {
+        
+    }
+    
+    function pB () {
+        
+    }
+    
     document.addEventListener("deviceready", initialize);
 
     return {
@@ -252,7 +375,13 @@ var app = (function () {
         goFilter: toFilter,
         filterViewInit: filterViewInit,
         mClose: mClose,
-        mSubm: mSubm
+        mSubm: mSubm,
+        initBasketView: initBasket,
+        doPriceBasket: doPriceBasket,
+        back: back,
+        ready: ready,
+        mB: mB,
+        pB: pB
     }
 
 }());
