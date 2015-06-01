@@ -110,6 +110,15 @@ var app = (function () {
     }
 
     function showMain(e) {
+        //Устанавливаем скрол в первоначальную позицию
+        e.view.element.find(".km-scroll-container").css("-webkit-transform", "translate3d(0px, 0px, 0px) scale(1)");
+        //Сбрасываем фильтр в начальное состояние
+        dataSource.filter({
+            field: "name",
+            operator: "startswith",
+            value: "",
+            placeholder: "поиск..."
+        });
         //Определяем тип параметра либо хэш либо ингредиент
         if (e.view.params.hasOwnProperty("hash")) {
             var el = $("#" + e.view.params.hash);

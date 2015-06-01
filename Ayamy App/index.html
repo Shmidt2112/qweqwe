@@ -18,7 +18,7 @@
         <div data-role="header">
             <div data-role="navbar" class="header">
                 <span data-role="view-title"></span>
-                <a data-role="button" data-click="app.goFilter" data-align="left" data-icon="filter"></a>
+                <a data-role="button" data-rel="drawer" href="#filterView" data-align="left" data-icon="filter"></a>
                 <a data-role="button" data-align="left" data-rel="popover" href="#sale" style="color:#EEB422" data-icon="info"></a>
                 <a data-role="button" data-click="app.goBasket" data-align="right" style="color:#EEB422" data-icon="basket"><span id="basket">0</span> P</a>
             </div>
@@ -37,8 +37,12 @@
         </div>
         <ul id="main-list" data-style="inset"></ul>
     </div>
-    <div data-role="view" id="filterView" data-init="app.filterViewInit">
-        <div class="head">&nbsp;</div>
+    <div data-role="drawer" id="filterView" data-init="app.filterViewInit" data-title="Фильтр" data-position="left" style="width: 250px;">
+        <header data-role="header">
+            <div data-role="navbar">
+                <span data-role="view-title"></span>
+            </div>
+        </header>
         <ul id="select-filter">
             <li id="leftL">
                 Разделы
