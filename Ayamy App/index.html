@@ -8,8 +8,9 @@
     <link href="styles/main.css" rel="stylesheet" />
     <script src="cordova.js"></script>
     <script src="kendo/js/jquery.min.js"></script>
-    <script src="http://cdn.kendostatic.com/2015.1.429/js/kendo.all.min.js"></script>
+   <!-- <script src="http://cdn.kendostatic.com/2015.1.429/js/kendo.all.min.js"></script>-->
     <script src="kendo/js/kendo.mobile.min.js"></script>
+    <script src="scripts/rwd.js"></script>
     <script src="scripts/app.js"></script>
 </head>
 
@@ -97,6 +98,9 @@
         <div style="margin-top:20px;margin-left:20px;">
             <a data-role="button" class="delivery" href="#submModal" data-rel="modalview">Доставка</a>
             <a data-role="button" class="delivery">Самовывоз</a>
+            <div style="text-align:center;">
+                
+            </div>
         </div>
     </div>
     <div id="submModal" data-role="modalview" style="width: 90%;" data-title="Данные" data-model="submView">
@@ -107,25 +111,50 @@
         </div>
         <ul data-role="listview" data-style="inset">
             <li>
-                <label for="name">Имя:
-                    <input type="text" id="tel" placeholder="Ваше имя" />
+                <label>Имя:
+                    <input type="text" name="name" data-bind="value: name" placeholder="Ваше имя" />
                 </label>
             </li>
             <li>
-                <label for="tel">Телефон:
-                    <input type="text" id="tel" placeholder="Телефон" />
+                <label>Телефон:
+                    <input type="text" name="tel" data-bind="value: tel" placeholder="Телефон" />
                 </label>
             </li>
             <li>
-                <label for="adress">Адрес:
-                    <input type="text" id="adress" placeholder="Адрес" />
+                <label>Улица:
+                    <input type="text" name="street" data-bind="value: street" placeholder="Улица" />
+                </label>
+            </li>
+            <li>
+                <label>Дом:
+                    <input type="number" name="house" data-bind="value: house" placeholder="Номер дома" />
+                </label>
+            </li>
+            <li>
+                <label>Подъезд:
+                    <input type="number" name="porch" data-bind="value: porch" placeholder="Номер подъезда" />
+                </label>
+            </li>
+            <li>
+                <label>Этаж:
+                    <input type="number" name="floor" data-bind="value: floor" placeholder="Этаж" />
+                </label>
+            </li>
+            <li>
+                <label>Квартира:
+                    <input type="number" name="flat" data-bind="value: flat" placeholder="Квартира" />
+                </label>
+            </li>
+            <li>
+                <label>Количество персон:
+                    <input type="number" name="person" data-bind="value: person" />
                 </label>
             </li>
         </ul>
         <div data-role="footer">
             <div data-role="navbar">
-                <a data-click="app.mClose" data-role="button" data-align="left">Отмена</a>
-                <a data-click="app.mSubm" data-role="button" data-align="right">Готово</a>
+                <a data-bind="click: close" data-role="button" data-align="left">Отмена</a>
+                <a data-bind="click: subm" data-role="button" data-align="right">Готово</a>
             </div>
         </div>
     </div>
@@ -143,7 +172,7 @@
     <script type="text/x-kendo-template" id="basket-template">
         <img src="${url}" style="float:left;" id="imgB${id}" data-direct="0" />
         <span class="items">${name}</span>
-         <div id="b${id}" style="display:none;float:right;">
+        <div id="b${id}" style="display:none;float:right;">
             <a data-role="button" data-click="app.mB">-</a><span data-id="${id}" data-price="${price}">${count}</span><a data-role="button" data-click="app.pB">+</a>
         </div>
         <h4 class="prices">

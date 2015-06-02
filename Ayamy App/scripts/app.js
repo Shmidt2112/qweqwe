@@ -3,6 +3,10 @@ var app = (function () {
     var dataSource, sum, curId, listviews, timer,
         mobileApp = {},
         purchase = [],
+        purchaseHist = [],
+        dirName = "Ayamy",
+        fileName = "AyamyHistory.txt",
+        userFile = "AyamyUser.txt",
         groupedData = [
             {
                 id: 0,
@@ -75,7 +79,7 @@ var app = (function () {
         }
     });
 
-    var Item = function (id, price, name) {
+    var Item = function (id) {
         this.id = id;
         this.price = dataSource.get(curId).price;
         this.name = dataSource.get(curId).name;
@@ -84,6 +88,22 @@ var app = (function () {
         this.url = dataSource.get(curId).url;
     };
 
+    var ItemHist = function (id, count, price) {
+        this.id = id;
+        this.price = price;
+        this.count = count;
+    };
+
+    var User = function (name, tel, street, house, porch, floor, flat) {
+        this.name = name;
+        this.telephone = tel;
+        this.street = street;
+        this.house = house;
+        this.porch = porch;
+        this.floor = floor;
+        this.flat = flat;
+    }
+
     function initialize() {
         mobileApp = new kendo.mobile.Application(document.body, {
             skin: "flat"
@@ -91,6 +111,8 @@ var app = (function () {
     }
 
     function initMain() {
+        //Считываем с текстового файла всю историю
+        rwd.read(dirName, fileName);
         //Устанавливаем начальный список
         $("#main-list").kendoMobileListView({
             dataSource: dataSource,
@@ -102,11 +124,12 @@ var app = (function () {
             template: $("#main-template").html(),
             headerTemplate: "<h4 id='#= data.items[0].hash #' style='color:gray;margin:5px;'>${value}</h4>"
         });
-        $("#qrCode").kendoQRCode({
+        /*$("#qrCode").kendoQRCode({
             value: "https://bit.ly/1GdCozW",
             size: 240
                 // background: "red"
-        });
+        });*/
+
     }
 
     function showMain(e) {
@@ -296,8 +319,6 @@ var app = (function () {
         timer = setInterval(animationImg, 20, curId);
     }
 
-
-
     function toMain() {
         mobileApp.navigate("#main-view#rools", "slide");
     }
@@ -329,16 +350,24 @@ var app = (function () {
 
     function mSubm() {
         // mobileApp.navigate("views/ready.html", "fade");
-        $("#submModal").kendoMobileModalView("close");
-    }
+        
+        //Записываем данные пользователя в файл
+        var name = this.name ? this.name : "",
+            tel = this.tel ? this.tel : "",
+            street = this.street ? this.street : "",
+            house = this.house ? this.house : "",
+            porch = this.porch ? this.porch : "",
+            floor = this.floor ? this.floor : "",
+            flat = this.flat ? this.flat : "";
 
-    function initBasket() {
-        $("#basket-list").kendoMobileListView({
-            dataSource: purchase,
-            template: $("#basket-template").html(),
-            headerTemplate: "<h4 style='color:gray;margin:5px;'>${value}</h4>"
-        });
-        sumBasket();
+        //Припилить валидацию
+
+        //var us = new User(this.name, this.tel, this.street, this.house, this.porch, this.floor, this.flat);
+
+        var user = name + "|" + tel + "|" + street + "|" + house + "|" + porch + "|" + floor + "|" + flat;
+        rwd.write(dirName, userFile, user);
+
+        $("#submModal").kendoMobileModalView("close");
     }
 
     function sumBasket() {
@@ -348,6 +377,15 @@ var app = (function () {
         }
         purchase.length > 0 ? $("#hready").text("Ваш заказ") : $("#hready").text("Корзина пуста");
         $("#finish").text(sum);
+    }
+
+    function initBasket() {
+        $("#basket-list").kendoMobileListView({
+            dataSource: purchase,
+            template: $("#basket-template").html(),
+            headerTemplate: "<h4 style='color:gray;margin:5px;'>${value}</h4>"
+        });
+        sumBasket();
     }
 
     function doPriceBasket(e) {
@@ -364,6 +402,21 @@ var app = (function () {
 
     function ready() {
         mobileApp.navigate("#ready");
+
+        //Считываем с файла пользователя
+         $("input[name='name']").val("user[0]");
+        //Заполняем поля
+        
+        if (purchase.length > 0) {
+            var delivery = "";
+            for (var i = 0; i < purchase.length; i++) {
+                delivery += purchase[i].id + "|" + purchase[i].count + "|" + purchase[i].price + ";";
+            }
+            //Удаляем последний знак ';'
+            delivery = delivery.slice(0, -1);
+            //Записываем в текстовый файл совершённый заказ
+            rwd.write(dirName, fileName, delivery);
+        }
     }
 
     function mB(e) {
@@ -393,7 +446,7 @@ var app = (function () {
 
         }
         agregate();
-        sumBasket();        
+        sumBasket();
     }
 
     function pB(e) {
@@ -413,6 +466,35 @@ var app = (function () {
         sumBasket();
     }
 
+    function renderWithHistory() {
+
+    }
+
+    function getPurchaseHistory (history) {
+        //Сначало считываем все строки, разделённые ';'
+        var vals = history.split(";");
+        //Формируем массив объектов истории покупок
+        for (var i = 0; i < vals.length; i++) {
+            var t = vals[i].split("|");
+            //Формируем новый объект из строки
+            var item = new ItemHist(t[0], t[1], t[2]);
+            purchaseHist.push(item);
+        }
+        //Вызваем функцию отрисовки контента
+        renderWithHistory();
+    }
+    
+    function getUserFromFile (content) {
+        var user = content.split("|");
+        //Заполняем поля в форме
+        //$("input[name='name']").val(user[0]);
+    }
+
+    window.submView = kendo.observable({
+        subm: mSubm,
+        close: mClose
+    });
+
     document.addEventListener("deviceready", initialize);
 
     return {
@@ -426,14 +508,16 @@ var app = (function () {
         goBasket: toBasket,
         goFilter: toFilter,
         filterViewInit: filterViewInit,
-        mClose: mClose,
-        mSubm: mSubm,
+        // mClose: mClose,
+        //  mSubm: mSubm,
         initBasketView: initBasket,
         doPriceBasket: doPriceBasket,
         back: back,
         ready: ready,
         mB: mB,
-        pB: pB
+        pB: pB,
+        getPurchaseHistory: getPurchaseHistory,
+        getUserFromFile: getUserFromFile
     }
 
 }());
