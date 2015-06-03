@@ -94,7 +94,7 @@ var app = (function () {
         this.count = count;
     };
 
-    var User = function (name, tel, street, house, porch, floor, flat) {
+   /* var User = function (name, tel, street, house, porch, floor, flat) {
         this.name = name;
         this.telephone = tel;
         this.street = street;
@@ -102,7 +102,7 @@ var app = (function () {
         this.porch = porch;
         this.floor = floor;
         this.flat = flat;
-    }
+    }*/
 
     function initialize() {
         mobileApp = new kendo.mobile.Application(document.body, {
@@ -111,7 +111,7 @@ var app = (function () {
     }
 
     function initMain() {
-        //Считываем с текстового файла всю историю
+        //Считываем с текстового файла историю покупок
         rwd.read(dirName, fileName);
         //Устанавливаем начальный список
         $("#main-list").kendoMobileListView({
@@ -404,9 +404,8 @@ var app = (function () {
         mobileApp.navigate("#ready");
 
         //Считываем с файла пользователя
-         $("input[name='name']").val("user[0]");
-        //Заполняем поля
-        
+        rwd.read(dirName, userFile); 
+
         if (purchase.length > 0) {
             var delivery = "";
             for (var i = 0; i < purchase.length; i++) {
@@ -486,8 +485,9 @@ var app = (function () {
     
     function getUserFromFile (content) {
         var user = content.split("|");
+       // alert(user[0]);
         //Заполняем поля в форме
-        //$("input[name='name']").val(user[0]);
+        $("input[name='name']").val(user[0]);
     }
 
     window.submView = kendo.observable({
