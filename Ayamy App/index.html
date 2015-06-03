@@ -8,9 +8,10 @@
     <link href="styles/main.css" rel="stylesheet" />
     <script src="cordova.js"></script>
     <script src="kendo/js/jquery.min.js"></script>
-   <!-- <script src="http://cdn.kendostatic.com/2015.1.429/js/kendo.all.min.js"></script>-->
+    <!-- <script src="http://cdn.kendostatic.com/2015.1.429/js/kendo.all.min.js"></script>-->
     <script src="kendo/js/kendo.mobile.min.js"></script>
     <script src="scripts/rwd.js"></script>
+    <script src="scripts/validator.js"></script>
     <script src="scripts/app.js"></script>
 </head>
 
@@ -98,7 +99,6 @@
             <a data-role="button" class="delivery" href="#submModal" data-rel="modalview">Доставка</a>
             <a data-role="button" class="delivery">Самовывоз</a>
             <div style="text-align:center;">
-                
             </div>
         </div>
     </div>
@@ -108,48 +108,50 @@
                 <span>Данные</span>
             </div>
         </div>
-        <ul data-role="listview" data-style="inset">
-            <li>
-                <label>Имя:
-                    <input type="text" name="name" data-bind="value: name" placeholder="Ваше имя" />
-                </label>
-            </li>
-            <li>
-                <label>Телефон:
-                    <input type="text" name="tel" data-bind="value: tel" placeholder="Телефон" />
-                </label>
-            </li>
-            <li>
-                <label>Улица:
-                    <input type="text" name="street" data-bind="value: street" placeholder="Улица" />
-                </label>
-            </li>
-            <li>
-                <label>Дом:
-                    <input type="number" name="house" data-bind="value: house" placeholder="Номер дома" />
-                </label>
-            </li>
-            <li>
-                <label>Подъезд:
-                    <input type="number" name="porch" data-bind="value: porch" placeholder="Номер подъезда" />
-                </label>
-            </li>
-            <li>
-                <label>Этаж:
-                    <input type="number" name="floor" data-bind="value: floor" placeholder="Этаж" />
-                </label>
-            </li>
-            <li>
-                <label>Квартира:
-                    <input type="number" name="flat" data-bind="value: flat" placeholder="Квартира" />
-                </label>
-            </li>
-            <li>
-                <label>Количество персон:
-                    <input type="number" name="person" data-bind="value: person" />
-                </label>
-            </li>
-        </ul>
+        <form id="userForm">
+            <ul data-role="listview" data-style="inset">
+                <li>
+                    <label>Имя:
+                        <input type="text" name="name" data-bind="value: name" placeholder="Ваше имя" />
+                    </label>
+                </li>
+                <li>
+                    <label>Телефон:
+                        <input type="text" name="tel" data-bind="value: tel" placeholder="Телефон" />
+                    </label>
+                </li>
+                <li>
+                    <label>Улица:
+                        <input type="text" name="street" data-bind="value: street" placeholder="Улица" />
+                    </label>
+                </li>
+                <li>
+                    <label>Дом:
+                        <input type="number" name="house" min="1" data-bind="value: house" placeholder="Номер дома" />
+                    </label>
+                </li>
+                <li>
+                    <label>Подъезд:
+                        <input type="number" name="porch" min="1" data-bind="value: porch" placeholder="Номер подъезда" />
+                    </label>
+                </li>
+                <li>
+                    <label>Этаж:
+                        <input type="number" name="floor" min="1" data-bind="value: floor" placeholder="Этаж" />
+                    </label>
+                </li>
+                <li>
+                    <label>Квартира:
+                        <input type="number" name="flat" min="1" data-bind="value: flat" placeholder="Квартира" />
+                    </label>
+                </li>
+                <li>
+                    <label>Количество персон:
+                        <input type="number" name="person" min="1" data-bind="value: person" />
+                    </label>
+                </li>
+            </ul>
+        </form>
         <div data-role="footer">
             <div data-role="navbar">
                 <a data-bind="click: close" data-role="button" data-align="left">Отмена</a>

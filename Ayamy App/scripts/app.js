@@ -351,23 +351,14 @@ var app = (function () {
     function mSubm() {
         // mobileApp.navigate("views/ready.html", "fade");
         
-        //Записываем данные пользователя в файл
-        var name = this.name ? this.name : "",
-            tel = this.tel ? this.tel : "",
-            street = this.street ? this.street : "",
-            house = this.house ? this.house : "",
-            porch = this.porch ? this.porch : "",
-            floor = this.floor ? this.floor : "",
-            flat = this.flat ? this.flat : "";
-
-        //Припилить валидацию
-
-        //var us = new User(this.name, this.tel, this.street, this.house, this.porch, this.floor, this.flat);
-
-        var user = name + "|" + tel + "|" + street + "|" + house + "|" + porch + "|" + floor + "|" + flat;
-        rwd.write(dirName, userFile, user);
-
-        $("#submModal").kendoMobileModalView("close");
+        //Если все поля введены, записываем в файл и закрываем окно
+        if (validator.validate("#userForm")) {
+            var user = this.name + "|" + this.tel + "|" + this.street + "|" + this.house + "|" + this.porch + "|" + this.floor + "|" + this.flat;
+        	rwd.write(dirName, userFile, user);
+            $("#submModal").kendoMobileModalView("close");
+            //Делаем запрос к серверу
+            
+        }
     }
 
     function sumBasket() {
