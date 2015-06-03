@@ -94,15 +94,15 @@ var app = (function () {
         this.count = count;
     };
 
-   /* var User = function (name, tel, street, house, porch, floor, flat) {
-        this.name = name;
-        this.telephone = tel;
-        this.street = street;
-        this.house = house;
-        this.porch = porch;
-        this.floor = floor;
-        this.flat = flat;
-    }*/
+    /* var User = function (name, tel, street, house, porch, floor, flat) {
+         this.name = name;
+         this.telephone = tel;
+         this.street = street;
+         this.house = house;
+         this.porch = porch;
+         this.floor = floor;
+         this.flat = flat;
+     }*/
 
     function initialize() {
         mobileApp = new kendo.mobile.Application(document.body, {
@@ -350,14 +350,13 @@ var app = (function () {
 
     function mSubm() {
         // mobileApp.navigate("views/ready.html", "fade");
-        
+
         //Если все поля введены, записываем в файл и закрываем окно
         if (validator.validate("#userForm")) {
             var user = this.name + "|" + this.tel + "|" + this.street + "|" + this.house + "|" + this.porch + "|" + this.floor + "|" + this.flat;
-        	rwd.write(dirName, userFile, user);
+            rwd.write(dirName, userFile, user);
             $("#submModal").kendoMobileModalView("close");
             //Делаем запрос к серверу
-            
         }
     }
 
@@ -366,8 +365,14 @@ var app = (function () {
         for (var i = 0; i < purchase.length; i++) {
             sum += purchase[i].total;
         }
-        purchase.length > 0 ? $("#hready").text("Ваш заказ") : $("#hready").text("Корзина пуста");
-        $("#finish").text(sum);
+        if (purchase.length > 0) {
+            $("#hready").text("Ваш заказ");
+             $("#finish").text(sum);
+            $("#fin").show();
+        } else {
+            $("#hready").text("Ваша корзина пуста");
+            $("#fin").hide();
+        }
     }
 
     function initBasket() {
@@ -395,7 +400,7 @@ var app = (function () {
         mobileApp.navigate("#ready");
 
         //Считываем с файла пользователя
-        rwd.read(dirName, userFile); 
+        rwd.read(dirName, userFile);
 
         if (purchase.length > 0) {
             var delivery = "";
@@ -460,7 +465,7 @@ var app = (function () {
 
     }
 
-    function getPurchaseHistory (history) {
+    function getPurchaseHistory(history) {
         //Сначало считываем все строки, разделённые ';'
         var vals = history.split(";");
         //Формируем массив объектов истории покупок
@@ -473,17 +478,34 @@ var app = (function () {
         //Вызваем функцию отрисовки контента
         renderWithHistory();
     }
-    
-    function getUserFromFile (content) {
+
+    function getUserFromFile(content) {
         var user = content.split("|");
-       // alert(user[0]);
+        // alert(user[0]);
         //Заполняем поля в форме
         $("input[name='name']").val(user[0]);
+    }
+
+    function mSubmP() {
+        if (validator.validate("#pic")) {
+            $("#pickup").kendoMobileModalView("close");
+            var user = this.name + "|" + this.tel;
+            //Делаем запрос на сервер
+        }
+    }
+
+    function mCloseP() {
+        $("#pickup").kendoMobileModalView("close");
     }
 
     window.submView = kendo.observable({
         subm: mSubm,
         close: mClose
+    });
+
+    window.pickupView = kendo.observable({
+        subm: mSubmP,
+        close: mCloseP
     });
 
     document.addEventListener("deviceready", initialize);

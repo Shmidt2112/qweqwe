@@ -82,7 +82,7 @@
         <div data-role="header">
             <div data-role="navbar">
                 <a data-role="backbutton" data-icon="home" data-align="left" data-click="app.back"></a>
-                <a data-role="button" style="float:right;color:#EEB422" data-click="app.ready" data-icon="basket" data-align="right"><span id="finish"></span> Р</a>
+                <a id="fin" data-role="button" style="float:right;color:#EEB422" data-click="app.ready" data-icon="basket" data-align="right"><span id="finish"></span> Р</a>
             </div>
         </div>
         <h3 style="text-align:center;color:gray" id="hready">
@@ -95,10 +95,12 @@
                 <a data-role="backbutton" data-icon="home" data-align="left">Назад</a>
             </div>
         </div>
-        <div style="margin-top:20px;margin-left:20px;">
-            <a data-role="button" class="delivery" href="#submModal" data-rel="modalview">Доставка</a>
-            <a data-role="button" class="delivery">Самовывоз</a>
-            <div style="text-align:center;">
+        <div style="margin-top:20px;margin-left:20px;text-align:center;">
+            <a data-role="button" class="delivery" href="#submModal" data-rel="modalview" data-type="0">Доставка</a>
+            <a data-role="button" class="delivery" href="#pickup" data-rel="modalview" data-type="1">Самовывоз</a>
+            <div id="del" style="display:none;text-align:center;margin-top:10px;">
+                <a data-role="button" class="delivery">В ближайшее время</a>
+                <a data-role="button" class="delivery">Ко времени</a>
             </div>
         </div>
     </div>
@@ -117,7 +119,7 @@
                 </li>
                 <li>
                     <label>Телефон:
-                        <input type="text" name="tel" data-bind="value: tel" placeholder="Телефон" />
+                        <input type="number" name="tel" min="8" data-bind="value: tel" placeholder="Телефон" />
                     </label>
                 </li>
                 <li>
@@ -132,17 +134,17 @@
                 </li>
                 <li>
                     <label>Подъезд:
-                        <input type="number" name="porch" min="1" data-bind="value: porch" placeholder="Номер подъезда" />
+                        <input type="number" name="porch" min="1" data-bind="value: porch" placeholder="Номер" />
                     </label>
                 </li>
                 <li>
                     <label>Этаж:
-                        <input type="number" name="floor" min="1" data-bind="value: floor" placeholder="Этаж" />
+                        <input type="number" name="floor" min="1" data-bind="value: floor" placeholder="Номер" />
                     </label>
                 </li>
                 <li>
                     <label>Квартира:
-                        <input type="number" name="flat" min="1" data-bind="value: flat" placeholder="Квартира" />
+                        <input type="number" name="flat" min="1" data-bind="value: flat" placeholder="Номер" />
                     </label>
                 </li>
                 <li>
@@ -150,12 +152,66 @@
                         <input type="number" name="person" min="1" data-bind="value: person" />
                     </label>
                 </li>
+                <li>
+                    <label style="color:gray;">Ко времени:
+                        <input type="time" name="time" data-bind="value: time" />
+                    </label>
+                </li>
+                <li>
+                    <label style="color:gray;">Комментарий (необязательно):
+                        <textarea class="comment" style="resize: none;">
+                        </textarea>
+                    </label>
+                </li>
             </ul>
         </form>
         <div data-role="footer">
             <div data-role="navbar">
                 <a data-bind="click: close" data-role="button" data-align="left">Отмена</a>
-                <a data-bind="click: subm" data-role="button" data-align="right">Готово</a>
+                <a data-bind="click: subm" data-role="button" data-align="right" data-icon="action" style="color:#EEB422">Готово</a>
+            </div>
+        </div>
+    </div>
+    <div id="pickup" data-role="modalview" style="width: 90%;" data-title="Данные" data-model="pickupView">
+         <div data-role="header">
+            <div data-role="navbar">
+                <span>Данные</span>
+            </div>
+        </div>
+        <form id="pic">
+            <ul data-role="listview" data-style="inset">
+                <li>
+                    <label>Имя:
+                        <input type="text" name="name" data-bind="value: name" placeholder="Ваше имя" />
+                    </label>
+                </li>
+                <li>
+                    <label>Телефон:
+                        <input type="number" name="tel" min="8" data-bind="value: tel" placeholder="Телефон" />
+                    </label>
+                </li>
+                <li>
+                    <label>Количество персон:
+                        <input type="number" name="person" min="1" data-bind="value: person" />
+                    </label>
+                </li>
+                <li>
+                     <label style="color:gray;">Ко времени:
+                        <input type="time" name="time" data-bind="value: time" />
+                    </label>
+                </li>
+                <li>
+                    <label style="color:gray;">Комментарий (необязательно):
+                        <textarea class="comment" style="resize: none;">
+                        </textarea>
+                    </label>
+                </li>
+            </ul>
+        </form>
+         <div data-role="footer">
+            <div data-role="navbar">
+                <a data-bind="click: close" data-role="button" data-align="left">Отмена</a>
+                <a data-bind="click: subm" data-role="button" data-align="right" data-icon="action" style="color:#EEB422">Готово</a>
             </div>
         </div>
     </div>

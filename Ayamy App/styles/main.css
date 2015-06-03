@@ -71,7 +71,8 @@
 .delivery {
     border-color: whitesmoke !important;
     border-width: 0.1em !important;
-    border-radius: 5px !important
+    border-radius: 5px !important;
+    height:35px;
 }
 input[type=search] {
     background-color: dimgray !important;
