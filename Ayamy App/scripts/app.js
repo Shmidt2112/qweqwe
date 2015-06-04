@@ -104,14 +104,24 @@ var app = (function () {
          this.flat = flat;
      }*/
 
+     //Обновление проекта
+    function updateProject () {
+        if (window.livesync)
+        	window.livesync.sync();
+    }
+    
     function initialize() {
         mobileApp = new kendo.mobile.Application(document.body, {
             skin: "flat"
         });
+        navigator.splashscreen.hide();
+        
+        $("#title").one("click", updateProject);
     }
+    
 
     function initMain() {
-        //Считываем с текстового файла историю покупок
+        //Считываем с текстового файла историю покупок b пользовательские данные
         rwd.read(dirName, fileName);
         //Устанавливаем начальный список
         $("#main-list").kendoMobileListView({
@@ -499,9 +509,24 @@ var app = (function () {
 
     function getUserFromFile(content) {
         var user = content.split("|");
-        // alert(user[0]);
         //Заполняем поля в форме
         $("input[name='name']").val(user[0]);
+        $("input[name='tel']").val(user[1]);
+        if (user[2]) { //улица
+            $("input[name='street']").val(user[2]);
+        } 
+        if (user[3]) { //дом
+            $("input[name='house']").val(user[3]);
+        } 
+        if (user[4]) { //подьезд
+            $("input[name='porch']").val(user[4]);
+        } 
+        if (user[5]) { //этаж
+            $("input[name='floor']").val(user[5]);
+        } 
+        if (user[6]) { //квартира
+            $("input[name='flat']").val(user[6]);
+        }
     }
 
     window.submView = kendo.observable({
@@ -518,6 +543,7 @@ var app = (function () {
 
     return {
         init: initMain,
+        update: updateProject,
         show: showMain,
         hide: hideMain,
         doPrice: doPrice,
