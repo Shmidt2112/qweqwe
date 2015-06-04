@@ -104,21 +104,21 @@ var app = (function () {
          this.flat = flat;
      }*/
 
-     //Обновление проекта
-    function updateProject () {
+    //Обновление проекта
+    function updateProject() {
         if (window.livesync)
-        	window.livesync.sync();
+            window.livesync.sync();
     }
-    
+
     function initialize() {
         mobileApp = new kendo.mobile.Application(document.body, {
             skin: "flat"
         });
         navigator.splashscreen.hide();
-        
+
         $("#title").one("click", updateProject);
     }
-    
+
 
     function initMain() {
         //Считываем с текстового файла историю покупок b пользовательские данные
@@ -362,26 +362,30 @@ var app = (function () {
     }
 
     function mSubm(e) {
-       
+
         //Если все поля введены, записываем в файл и закрываем окно
         if (validator.validate($(e.target).data("form"))) {
             var user = this.name + "|" + this.tel;
             if (this.street) {
-                 user += "|" + this.street;
-            } if (this.house) {
+                user += "|" + this.street;
+            }
+            if (this.house) {
                 user += "|" + this.house;
-            } if (this.porch) {
+            }
+            if (this.porch) {
                 user += "|" + this.porch;
-            } if (this.floor) {
+            }
+            if (this.floor) {
                 user += "|" + this.floor;
-            } if (this.flat) {
+            }
+            if (this.flat) {
                 user += "|" + this.flat;
             }
             rwd.write(dirName, userFile, user);
             var el = $(e.target).data("form");
             var d = $(el).closest("div[data-role='modalview']");
             $(d).kendoMobileModalView("close");
-             $("input[name='time']").val("");
+            $("input[name='time']").val("");
             //Делаем запрос к серверу
         }
     }
@@ -427,7 +431,8 @@ var app = (function () {
 
     function ready() {
         mobileApp.navigate("#ready");
-
+	
+        $("input[name='person']").val(1);
         //Считываем с файла пользователя
         rwd.read(dirName, userFile);
 
@@ -511,22 +516,22 @@ var app = (function () {
     //Автозаполнение полей форм
     function getUserFromFile(content) {
         var user = content.split("|");
-		//Имя
+        //Имя
         $("input[name='name']").val(user[0]);
         //Телефон
         $("input[name='tel']").val(user[1]);
         if (user[2]) { //улица
             $("input[name='street']").val(user[2]);
-        } 
+        }
         if (user[3]) { //дом
             $("input[name='house']").val(user[3]);
-        } 
+        }
         if (user[4]) { //подьезд
             $("input[name='porch']").val(user[4]);
-        } 
+        }
         if (user[5]) { //этаж
             $("input[name='floor']").val(user[5]);
-        } 
+        }
         if (user[6]) { //квартира
             $("input[name='flat']").val(user[6]);
         }
