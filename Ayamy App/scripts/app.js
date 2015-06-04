@@ -344,18 +344,33 @@ var app = (function () {
         });
     }
 
-    function mClose() {
-        $("#submModal").kendoMobileModalView("close");
+    function mClose(e) {
+        $("input[name='time']").val("");
+        var el = $(e.target).data("form");
+        var d = $(el).closest("div[data-role='modalview']");
+        $(d).kendoMobileModalView("close");
     }
 
-    function mSubm() {
-        // mobileApp.navigate("views/ready.html", "fade");
-
+    function mSubm(e) {
+        $("input[name='time']").val("");
         //Если все поля введены, записываем в файл и закрываем окно
-        if (validator.validate("#userForm")) {
-            var user = this.name + "|" + this.tel + "|" + this.street + "|" + this.house + "|" + this.porch + "|" + this.floor + "|" + this.flat;
+        if (validator.validate($(e.target).data("form"))) {
+            var user = this.name + "|" + this.tel;
+            if (this.street) {
+                 user += "|" + this.street;
+            } if (this.house) {
+                user += "|" + this.house;
+            } if (this.porch) {
+                user += "|" + this.porch;
+            } if (this.floor) {
+                user += "|" + this.floor;
+            } if (this.flat) {
+                user += "|" + this.flat;
+            }
             rwd.write(dirName, userFile, user);
-            $("#submModal").kendoMobileModalView("close");
+            var el = $(e.target).data("form");
+            var d = $(el).closest("div[data-role='modalview']");
+            $(d).kendoMobileModalView("close");
             //Делаем запрос к серверу
         }
     }
@@ -367,11 +382,14 @@ var app = (function () {
         }
         if (purchase.length > 0) {
             $("#hready").text("Ваш заказ");
-             $("#finish").text(sum);
+            $("#finish").text(sum);
+            $("#finish2").text(sum + " Р");
             $("#fin").show();
+            $("#foo").show();
         } else {
             $("#hready").text("Ваша корзина пуста");
             $("#fin").hide();
+            $("#foo").hide();
         }
     }
 
@@ -486,26 +504,14 @@ var app = (function () {
         $("input[name='name']").val(user[0]);
     }
 
-    function mSubmP() {
-        if (validator.validate("#pic")) {
-            $("#pickup").kendoMobileModalView("close");
-            var user = this.name + "|" + this.tel;
-            //Делаем запрос на сервер
-        }
-    }
-
-    function mCloseP() {
-        $("#pickup").kendoMobileModalView("close");
-    }
-
     window.submView = kendo.observable({
         subm: mSubm,
         close: mClose
     });
 
     window.pickupView = kendo.observable({
-        subm: mSubmP,
-        close: mCloseP
+        subm: mSubm,
+        close: mClose
     });
 
     document.addEventListener("deviceready", initialize);

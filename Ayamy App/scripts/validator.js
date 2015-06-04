@@ -1,7 +1,7 @@
 var validator = (function () {
 
     var v, element, validateAll = [];
-    
+
     //Действия при невалидности
     function inputDo(input) {
         input.addClass("border-validate").hide().fadeIn("slow");
@@ -19,8 +19,25 @@ var validator = (function () {
     function isNotEmpty(input) {
         return !!input.val() || inputDo(input);
     }
+    
+    //Проверка времени, время доставки должно быть больше 22:46
+    function checkTime (input) {
+        var time = input.val().split(":");
+        //Проверяем часы
+        if (time.length > 1 && (+time[0] > 22 || +time[0] === 0)) {
+            alert("Время заказа не должно превышать 22:46");
+            return false;
+        } else if (+time[0] === 22) {
+            //Проверяем минуты
+            if (+time[1] > 45) {
+                alert("Время заказа не должно превышать 22:46");
+            	return false;
+            }
+		}
+        return true;
+    }
 
-    function validate (elem) {
+    function validate(elem) {
 
         validateAll.length = 0;
 
@@ -43,22 +60,29 @@ var validator = (function () {
                         } else validateAll.push(false);
                         break; //Если поля заполнены хотя бы одним символом
                     }
-                //В перспективе
+                case "time":
+                    {
+                        if (checkTime(element)) {
+                            validateAll.push(true);
+                        } else validateAll.push(false);
+                        
+                    }
+                    //В перспективе
                 case "login":
                     {
                         // if (IsCorrectEmail(element)) { раскоментить!
-                      /*  if (isNotEmpty(element)) {
-                            validateAll.push(true);
-                        } else validateAll.push(false);
-                        break;*/
+                        /*  if (isNotEmpty(element)) {
+                              validateAll.push(true);
+                          } else validateAll.push(false);
+                          break;*/
                     }
                 case "password":
                     {
-                       /*if (isCorrectPassword(element)) {
-                            validateAll.push(true);
-                            passwVal = element.val();
-                        } else validateAll.push(false);
-                        break;*/
+                        /*if (isCorrectPassword(element)) {
+                             validateAll.push(true);
+                             passwVal = element.val();
+                         } else validateAll.push(false);
+                         break;*/
                     }
                 case "confirmPassword":
                     {

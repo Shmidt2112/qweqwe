@@ -88,6 +88,12 @@
         <h3 style="text-align:center;color:gray" id="hready">
         </h3>
         <ul id="basket-list"></ul>
+        <div data-role="footer" id="foo">
+            <div data-role="navbar">
+                <span id="finish2" style="color:#EEB422;"></span>
+                <a data-role="button" data-align="right" data-click="app.ready" data-icon="basket" class="delivery">Далее</a>
+            </div>
+        </div>
     </div>
     <div data-role="view" id="ready">
         <div data-role="header">
@@ -95,9 +101,9 @@
                 <a data-role="backbutton" data-icon="home" data-align="left">Назад</a>
             </div>
         </div>
-        <div style="margin-top:20px;margin-left:20px;text-align:center;">
-            <a data-role="button" class="delivery" href="#submModal" data-rel="modalview" data-type="0">Доставка</a>
-            <a data-role="button" class="delivery" href="#pickup" data-rel="modalview" data-type="1">Самовывоз</a>
+        <div style="margin-top:50px;margin-left:20px;text-align:center;">
+            <a data-role="button" class="delivery adv" href="#submModal" data-rel="modalview" data-type="0">Доставка</a>
+            <a data-role="button" class="delivery adv" href="#pickup" data-rel="modalview" data-type="1">Самовывоз</a>
             <div id="del" style="display:none;text-align:center;margin-top:10px;">
                 <a data-role="button" class="delivery">В ближайшее время</a>
                 <a data-role="button" class="delivery">Ко времени</a>
@@ -149,31 +155,29 @@
                 </li>
                 <li>
                     <label>Количество персон:
-                        <input type="number" name="person" min="1" data-bind="value: person" />
+                        <input type="number" name="person" min="1" style="padding-left:20px;" data-bind="value: person" />
                     </label>
                 </li>
-                <li>
+                <li style="height:50px;">
                     <label style="color:gray;">Ко времени:
-                        <input type="time" name="time" data-bind="value: time" />
+                        <input type="time" name="time" data-bind="value: time" placeholder="Время" />
                     </label>
                 </li>
                 <li>
-                    <label style="color:gray;">Комментарий (необязательно):
-                        <textarea class="comment" style="resize: none;">
-                        </textarea>
-                    </label>
+                    <label style="color:gray;">Комментарий:
+                        <input type="text" name="comment" data-bind="value: comment" placeholder="Комментарий" </label>
                 </li>
             </ul>
         </form>
         <div data-role="footer">
             <div data-role="navbar">
-                <a data-bind="click: close" data-role="button" data-align="left">Отмена</a>
-                <a data-bind="click: subm" data-role="button" data-align="right" data-icon="action" style="color:#EEB422">Готово</a>
+                <a data-bind="click: close" data-role="button" data-align="left" data-form="#userForm" class="delivery adv">Отмена</a>
+                <a data-bind="click: subm" data-role="button" data-align="right" data-icon="action" data-form="#userForm" class="delivery adv">Готово</a>
             </div>
         </div>
     </div>
     <div id="pickup" data-role="modalview" style="width: 90%;" data-title="Данные" data-model="pickupView">
-         <div data-role="header">
+        <div data-role="header">
             <div data-role="navbar">
                 <span>Данные</span>
             </div>
@@ -192,26 +196,24 @@
                 </li>
                 <li>
                     <label>Количество персон:
-                        <input type="number" name="person" min="1" data-bind="value: person" />
+                        <input type="number" name="person" min="1"  style="padding-left:20px;"  data-bind="value: person" />
+                    </label>
+                </li>
+                <li style="height:50px;">
+                    <label style="color:gray;">Ко времени:
+                        <input type="time" name="time" style="height:35px;" data-bind="value: time" />
                     </label>
                 </li>
                 <li>
-                     <label style="color:gray;">Ко времени:
-                        <input type="time" name="time" data-bind="value: time" />
-                    </label>
-                </li>
-                <li>
-                    <label style="color:gray;">Комментарий (необязательно):
-                        <textarea class="comment" style="resize: none;">
-                        </textarea>
-                    </label>
+                    <label style="color:gray;">Комментарий:
+                        <input type="text" name="comment" data-bind="value: comment" placeholder="Комментарий" </label>
                 </li>
             </ul>
         </form>
-         <div data-role="footer">
+        <div data-role="footer">
             <div data-role="navbar">
-                <a data-bind="click: close" data-role="button" data-align="left">Отмена</a>
-                <a data-bind="click: subm" data-role="button" data-align="right" data-icon="action" style="color:#EEB422">Готово</a>
+                <a data-bind="click: close" data-role="button" data-align="left" data-form="#pic" class="delivery adv">Отмена</a>
+                <a data-bind="click: subm" data-role="button" data-align="right" data-icon="action" data-form="#pic" class="delivery adv">Готово</a>
             </div>
         </div>
     </div>
