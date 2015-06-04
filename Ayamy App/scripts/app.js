@@ -362,7 +362,7 @@ var app = (function () {
     }
 
     function mSubm(e) {
-        $("input[name='time']").val("");
+       
         //Если все поля введены, записываем в файл и закрываем окно
         if (validator.validate($(e.target).data("form"))) {
             var user = this.name + "|" + this.tel;
@@ -381,6 +381,7 @@ var app = (function () {
             var el = $(e.target).data("form");
             var d = $(el).closest("div[data-role='modalview']");
             $(d).kendoMobileModalView("close");
+             $("input[name='time']").val("");
             //Делаем запрос к серверу
         }
     }
@@ -507,10 +508,12 @@ var app = (function () {
         renderWithHistory();
     }
 
+    //Автозаполнение полей форм
     function getUserFromFile(content) {
         var user = content.split("|");
-        //Заполняем поля в форме
+		//Имя
         $("input[name='name']").val(user[0]);
+        //Телефон
         $("input[name='tel']").val(user[1]);
         if (user[2]) { //улица
             $("input[name='street']").val(user[2]);

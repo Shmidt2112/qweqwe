@@ -12,7 +12,7 @@ var validator = (function () {
 
     //Действия при невалидности 2
     function inputDo2(mes) {
-        $("span#error").text(mes).slideDown("slow").delay(3000).slideUp("slow");
+        $("span.tooltip").text(mes).slideDown("normal").delay(3000).slideUp("normal");
     }
 
     //Проверка на пустоту в input
@@ -25,12 +25,14 @@ var validator = (function () {
         var time = input.val().split(":");
         //Проверяем часы
         if (time.length > 1 && (+time[0] > 22 || +time[0] === 0)) {
-            alert("Время заказа не должно превышать 22:46");
+            //alert("Время заказа не должно превышать 22:46");
+            inputDo2("Время заказа не должно превышать 22:46");
             return false;
         } else if (+time[0] === 22) {
             //Проверяем минуты
             if (+time[1] > 45) {
-                alert("Время заказа не должно превышать 22:46");
+                //alert("Время заказа не должно превышать 22:46");
+                inputDo2("Время заказа не должно превышать 22:46");
             	return false;
             }
 		}
