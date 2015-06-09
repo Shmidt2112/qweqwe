@@ -1,66 +1,75 @@
 var app = (function () {
 
-    var dataSource, sum, curId, listviews, timer,
+    var dataSource, sum, curId, listviews, timer, version, apiKey = "gR2l3Bi8JjZC4Hhv", 
+        rootUrl = "http://frontpad.ru/api/index.php",
         mobileApp = {},
         purchase = [],
         purchaseHist = [],
         dirName = "Ayamy",
         fileName = "AyamyHistory.txt",
         userFile = "AyamyUser.txt",
+        versionFile = "version.txt",
+        el = new Everlive(apiKey),
+        dtB = new kendo.data.DataSource({
+            type: "everlive",
+            transport: {
+                typeName: "Settings"
+            }
+        }),
         groupedData = [
             {
                 id: 0,
-                name: "Sashimi Salad",
-                description: "Зелень, украшеная свежими сашими, васаби, соевый винегрет.",
-                url: "images/sashimi-salad.jpg",
-                price: 170,
+                name: "Ролл Америка",
+                description: "рис,коп.лосось,коп.угорь,лосось терияке,огурец,сливоч.сыр (350гр.)",
+                url: "images/0.jpg",
+                price: 250,
                 letter: "Роллы",
                 hash: "rolls"
             },
             {
                 id: 1,
-                name: "Seaweed Salad",
-                description: "Салат из морепродуктов.",
-                url: "images/seaweed-salad.jpg",
-                price: 290,
+                name: "Казань",
+                description: "рис,коп.лосось,креветка,огурец,сливоч.сыр (350гр.)",
+                url: "images/1.jpg",
+                price: 260,
                 letter: "Роллы",
                 hash: "rolls"
             },
             {
                 id: 2,
-                name: "Edamame",
-                description: "Вареные соевые бобы с солью.",
-                url: "images/edamame.jpg",
-                price: 120,
+                name: "Хоккайдо",
+                description: "рис,коп.угорь,лосось,слив.сыр,кунжут (250гр.)",
+                url: "images/2.jpg",
+                price: 180,
                 letter: "Роллы",
                 hash: "rolls"
             },
             {
                 id: 3,
-                name: "Maguro",
-                description: "Кусочки из лосося.",
-                url: "images/maguro.jpg",
-                price: 150,
-                letter: "Суши",
-                hash: "sushi"
+                name: "Атлантический",
+                description: "рис,лосось,угорь,сливоч.сыр,огурец,тобико (255гр.)",
+                url: "images/3.jpg",
+                price: 180,
+                letter: "Роллы",
+                hash: "rolls"
             },
             {
                 id: 4,
-                name: "Tekka Maki",
-                description: "Тунец-ролл с васаби.",
-                url: "images/tekka-maki.jpg",
-                price: 240,
-                letter: "Суши",
-                hash: "sushi"
+                name: "Император",
+                description: "рис,коп.угорь,маринов.имбирь,огурец,сливоч.сыр (250гр.)",
+                url: "images/4.jpg",
+                price: 185,
+                letter: "Роллы",
+                hash: "rolls"
             },
             {
                 id: 5,
-                name: "California",
-                description: "Крабовые палочки, авокадо и огурец.",
-                url: "images/california-rolls.jpg",
-                price: 250,
-                letter: "Суши",
-                hash: "sushi"
+                name: "Самурай",
+                description: "рис,коп.угорь,лосось,авокадо,сливоч.сыр (250гр.)",
+                url: "images/5.jpg",
+                price: 180,
+                letter: "Роллы",
+                hash: "rolls"
             }
     ];
 
@@ -81,11 +90,11 @@ var app = (function () {
 
     var Item = function (id) {
         this.id = id;
-        this.price = dataSource.get(curId).price;
-        this.name = dataSource.get(curId).name;
+        this.price = dataSource.get(id).price;
+        this.name = dataSource.get(id).name;
         this.count = 1;
-        this.total = dataSource.get(curId).price;
-        this.url = dataSource.get(curId).url;
+        this.total = dataSource.get(id).price;
+        this.url = dataSource.get(id).url;
     };
 
     var ItemHist = function (id, count, price) {
@@ -106,8 +115,9 @@ var app = (function () {
 
     //Обновление проекта
     function updateProject() {
-        if (window.livesync)
+        if (window.livesync) {
             window.livesync.sync();
+        }
     }
 
     function initialize() {
@@ -116,13 +126,22 @@ var app = (function () {
         });
         navigator.splashscreen.hide();
 
-        $("#title").one("click", updateProject);
+       // $("#title").one("click", updateProject);
+
+
+        //Считываем с локальной бд и с файла телефона и сравниваем версии
+        dtB.fetch(function () {
+            var curVers = dtB.at(0).Version;
+           // alert(curVers);
+            rwd.read(dirName, versionFile, curVers);
+        }); 
+
     }
 
 
     function initMain() {
-        //Считываем с текстового файла историю покупок b пользовательские данные
-        rwd.read(dirName, fileName);
+        
+       
         //Устанавливаем начальный список
         $("#main-list").kendoMobileListView({
             dataSource: dataSource,
@@ -134,15 +153,17 @@ var app = (function () {
             template: $("#main-template").html(),
             headerTemplate: "<h4 id='#= data.items[0].hash #' style='color:gray;margin:5px;'>${value}</h4>"
         });
+        
         /*$("#qrCode").kendoQRCode({
             value: "https://bit.ly/1GdCozW",
             size: 240
                 // background: "red"
-        });*/
-
+        });*/ 
+      
     }
 
     function showMain(e) {
+        
         //Устанавливаем скрол в первоначальную позицию
         e.view.element.find(".km-scroll-container").css("-webkit-transform", "translate3d(0px, 0px, 0px) scale(1)");
         //Сбрасываем фильтр в начальное состояние
@@ -171,6 +192,14 @@ var app = (function () {
                 value: e.view.params.item
             });
         }
+        
+          //Считываем с текстового файла историю покупок
+        rwd.read(dirName, fileName, null);
+     /*    var item1 = new ItemHist(1,2,290);
+        purchaseHist.push(item1);
+        var item2 = new ItemHist(2,3,120);
+        purchaseHist.push(item2);
+        renderWithHistory();*/
     }
 
     function hideMain(e) {
@@ -193,6 +222,17 @@ var app = (function () {
             sum += purchase[j].total;
         }
         $("#basket").text(sum);
+        //Все изменения записываем в файл
+         if (purchase.length > 0) {
+            var delivery = "";
+            for (var i = 0; i < purchase.length; i++) {
+                delivery += purchase[i].id + "|" + purchase[i].count + "|" + purchase[i].price + ";";
+            }
+            //Удаляем последний знак ';'
+            delivery = delivery.slice(0, -1);
+            //Записываем в текстовый файл совершённый заказ
+            rwd.write(dirName, fileName, delivery);
+        }
     }
 
     function plus(e) {
@@ -243,7 +283,9 @@ var app = (function () {
 
     function minus(e) {
         for (var i = 0; i < purchase.length; i++) {
+            //alert(typeof purchase[i].id + " " + typeof $(e.target).next().data("id"));
             if (purchase[i].id === $(e.target).next().data("id")) {
+               
                 if (purchase[i].count > 1) {
                     //Уменьшаем кол-во на 1
                     purchase[i].count--;
@@ -386,7 +428,35 @@ var app = (function () {
             var d = $(el).closest("div[data-role='modalview']");
             $(d).kendoMobileModalView("close");
             $("input[name='time']").val("");
+            
+           /* var product = [];
+            product[0] = "119488";
+            var product_kol = [];
+            product_kol[0] = "100";
             //Делаем запрос к серверу
+            $.ajax({
+                url: rootUrl,
+                type: "POST",
+               // content:"text/html; charset=utf-8",
+                data: {"product[]" : product[0], "product_kol[]" : product_kol[0], "secret" : "NhyiD2iEFrrrKNHHfszn"},
+                complete: function (data) {
+                    alert(data.responseText);
+                }
+            });*/
+            
+           /* function postResult(elem) {
+				var xhr = new XMLHttpRequest();
+				var params = 'result_cat=' + elem.value;
+				xhr.open('POST', '/test_selected_category.php', true);
+				xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+				xhr.onreadystatechange = function() {
+					if (this.readyState == 4 && this.status == 200) {
+						alert(this.responseText);
+                    }
+				}
+				xhr.send(params);
+				}*/
+            
         }
     }
 
@@ -398,7 +468,7 @@ var app = (function () {
         if (purchase.length > 0) {
             $("#hready").text("Ваш заказ");
             $("#finish").text(sum);
-            $("#finish2").text(sum + " Р");
+            $("#finish2").text("Cумма " + sum + " Р");
             $("#fin").show();
             $("#foo").show();
         } else {
@@ -431,21 +501,12 @@ var app = (function () {
 
     function ready() {
         mobileApp.navigate("#ready");
-	
+
         $("input[name='person']").val(1);
         //Считываем с файла пользователя
-        rwd.read(dirName, userFile);
+        rwd.read(dirName, userFile, null);
 
-        if (purchase.length > 0) {
-            var delivery = "";
-            for (var i = 0; i < purchase.length; i++) {
-                delivery += purchase[i].id + "|" + purchase[i].count + "|" + purchase[i].price + ";";
-            }
-            //Удаляем последний знак ';'
-            delivery = delivery.slice(0, -1);
-            //Записываем в текстовый файл совершённый заказ
-            rwd.write(dirName, fileName, delivery);
-        }
+       
     }
 
     function mB(e) {
@@ -496,30 +557,56 @@ var app = (function () {
     }
 
     function renderWithHistory() {
-
+       
+		for(var i=0; i<purchaseHist.length; i++) {  
+                var img = $("#img" + purchaseHist[i].id); 
+                $(img).css('width', 0+'px');
+                $(img).data('direct', 1);
+                $(img).closest('li').css('height', 75+'px');
+                var div = $(img).closest('li').find('div').css('display', 'block');  
+                $(div).find('span:nth-child(2)').html(purchaseHist[i].count);
+                $(img).closest('li').find('h4').find('a').css('display', 'none'); 
+                
+               var item = new Item(purchaseHist[i].id);
+                item.count = purchaseHist[i].count;
+                item.price = purchaseHist[i].price;
+                item.total = purchaseHist[i].count*purchaseHist[i].price;
+               purchase.push(item);    
+                
+               agregate();
+                
+            } 
     }
 
     function getPurchaseHistory(history) {
         //Сначало считываем все строки, разделённые ';'
         var vals = history.split(";");
+        //Обнуляем purchaseHist перед чтением с файала истории
+        purchaseHist.length = 0;
         //Формируем массив объектов истории покупок
         for (var i = 0; i < vals.length; i++) {
             var t = vals[i].split("|");
             //Формируем новый объект из строки
-            var item = new ItemHist(t[0], t[1], t[2]);
+            var item = new ItemHist(+t[0], +t[1], +t[2]);
             purchaseHist.push(item);
         }
-        //Вызваем функцию отрисовки контента
-        renderWithHistory();
+       /*   var item1 = new ItemHist(1,2,290);
+        purchaseHist.push(item1);
+        var item2 = new ItemHist(2,3,120);
+        purchaseHist.push(item2);*/
+        
+         setTimeout(renderWithHistory, 300);
     }
 
     //Автозаполнение полей форм
     function getUserFromFile(content) {
         var user = content.split("|");
-        //Имя
-        $("input[name='name']").val(user[0]);
-        //Телефон
-        $("input[name='tel']").val(user[1]);
+        if (user[0]) { //Имя
+            $("input[name='name']").val(user[0]);
+        }
+        if (user[1]) { //Телефон
+            $("input[name='tel']").val(user[1]);
+        }
         if (user[2]) { //улица
             $("input[name='street']").val(user[2]);
         }

@@ -5,21 +5,39 @@
 var rwd = (function () {
 
     "use strict";
-    
+
     var hash, vals;
 
-    function read(dirName, fileName) {
-        //Пытаемся считать фалй настроек
+    function read(dirName, fileName, curVersion) {
+        //Пытаемся считать файл настроек
         function readAsText(file) {
             var reader = new FileReader();
             reader.onloadend = function (evt) {
-                //Если что-то есть
-                if (evt.target.result) {
-                   // alert(evt.target.result);
-                    if (fileName === "AyamyHistory.txt") {
+                //alert(evt.target.result);
+                if (fileName === "AyamyHistory.txt") {
+                    //Если что-то есть
+                    if (evt.target.result) {
+                        //alert(evt.target.result);
                         app.getPurchaseHistory(evt.target.result);
-                    } else if (fileName === "AyamyUser.txt") {
+                    }
+                } else if (fileName === "AyamyUser.txt") {
+                    if (evt.target.result) {
                         app.getUserFromFile(evt.target.result);
+                    }
+                } else if (fileName === "version.txt") {
+                    if (evt.target.result) {
+                        if (curVersion) {
+                            if (evt.target.result !== curVersion) { //Если версии не совпадают, обновляем и записываем в файл текущую версию
+                               // alert(curVersion);
+                                //Уведомляем пользователя об обновлении
+                               // $("#dd").text("Внимание, ваша версия приложения устарела, сейчас произойдёт обновление!").slideDown("normal").delay(3000).slideUp("normal");
+                                alert("Внимание, ваша версия приложения устарела, сейчас произойдёт обновление!");
+                                setTimeout(function () {
+                                    window.livesync.sync();
+                                    rwd.write(dirName, fileName, curVersion);
+                                }, 4000);
+                            }
+                        }
                     }
                 }
             }
@@ -31,7 +49,11 @@ var rwd = (function () {
         }
 
         function fail(error) {
-
+            if (fileName === "version.txt") { //первый запуск
+                //пытаемся создать файл с версией
+                rwd.write(dirName, fileName, curVersion);
+            }
+           // alert(error.code);
         }
 
         function gotFileEntry(fileEntry) {
@@ -52,7 +74,7 @@ var rwd = (function () {
     function write(dirName, fileName, text) {
 
         function fail(error) {
-           
+			//alert(error.code);
         }
 
         function gotFileWriter(writer) {
@@ -85,7 +107,7 @@ var rwd = (function () {
 
         //Обработчик ошибок
         function fail(error) {
-            
+
         }
 
         //Удаляем
@@ -97,7 +119,7 @@ var rwd = (function () {
         function gotDir(dirEntry) {
             dirEntry.getFile(fileName, null, gotFile, fail);
         }
-		
+
         //Получаем папку
         function gotFS(fileSystem) {
             fileSystem.root.getDirectory(dirName, null, gotDir, fail);
