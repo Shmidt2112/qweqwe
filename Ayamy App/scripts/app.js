@@ -1,6 +1,6 @@
 var app = (function () {
 
-    var dataSource, sum, curId, listviews, timer, version, apiKey = "gR2l3Bi8JjZC4Hhv", 
+    var dataSource, sum, curId, listviews, timer, version, apiKey = "gR2l3Bi8JjZC4Hhv",
         rootUrl = "http://frontpad.ru/api/index.php",
         mobileApp = {},
         purchase = [],
@@ -21,7 +21,7 @@ var app = (function () {
                 id: 0,
                 name: "Ролл Америка",
                 description: "рис,коп.лосось,коп.угорь,лосось терияке,огурец,сливоч.сыр (350гр.)",
-                url: "images/0.jpg",
+                url: "images/15.png",
                 price: 250,
                 letter: "Роллы",
                 hash: "rolls"
@@ -30,7 +30,7 @@ var app = (function () {
                 id: 1,
                 name: "Казань",
                 description: "рис,коп.лосось,креветка,огурец,сливоч.сыр (350гр.)",
-                url: "images/1.jpg",
+                url: "images/16.png",
                 price: 260,
                 letter: "Роллы",
                 hash: "rolls"
@@ -126,22 +126,22 @@ var app = (function () {
         });
         navigator.splashscreen.hide();
 
-       // $("#title").one("click", updateProject);
+        // $("#title").one("click", updateProject);
 
 
         //Считываем с локальной бд и с файла телефона и сравниваем версии
         dtB.fetch(function () {
             var curVers = dtB.at(0).Version;
-           // alert(curVers);
+            // alert(curVers);
             rwd.read(dirName, versionFile, curVers);
-        }); 
+        });
 
     }
 
 
     function initMain() {
-        
-       
+
+
         //Устанавливаем начальный список
         $("#main-list").kendoMobileListView({
             dataSource: dataSource,
@@ -153,17 +153,17 @@ var app = (function () {
             template: $("#main-template").html(),
             headerTemplate: "<h4 id='#= data.items[0].hash #' style='color:gray;margin:5px;'>${value}</h4>"
         });
-        
+
         /*$("#qrCode").kendoQRCode({
             value: "https://bit.ly/1GdCozW",
             size: 240
                 // background: "red"
-        });*/ 
-      
+        });*/
+
     }
 
     function showMain(e) {
-        
+
         //Устанавливаем скрол в первоначальную позицию
         e.view.element.find(".km-scroll-container").css("-webkit-transform", "translate3d(0px, 0px, 0px) scale(1)");
         //Сбрасываем фильтр в начальное состояние
@@ -192,14 +192,14 @@ var app = (function () {
                 value: e.view.params.item
             });
         }
-        
-          //Считываем с текстового файла историю покупок
+
+        //Считываем с текстового файла историю покупок
         rwd.read(dirName, fileName, null);
-     /*    var item1 = new ItemHist(1,2,290);
-        purchaseHist.push(item1);
-        var item2 = new ItemHist(2,3,120);
-        purchaseHist.push(item2);
-        renderWithHistory();*/
+        /*    var item1 = new ItemHist(1,2,290);
+           purchaseHist.push(item1);
+           var item2 = new ItemHist(2,3,120);
+           purchaseHist.push(item2);
+           renderWithHistory();*/
     }
 
     function hideMain(e) {
@@ -223,7 +223,7 @@ var app = (function () {
         }
         $("#basket").text(sum);
         //Все изменения записываем в файл
-         if (purchase.length > 0) {
+        if (purchase.length > 0) {
             var delivery = "";
             for (var i = 0; i < purchase.length; i++) {
                 delivery += purchase[i].id + "|" + purchase[i].count + "|" + purchase[i].price + ";";
@@ -285,7 +285,7 @@ var app = (function () {
         for (var i = 0; i < purchase.length; i++) {
             //alert(typeof purchase[i].id + " " + typeof $(e.target).next().data("id"));
             if (purchase[i].id === $(e.target).next().data("id")) {
-               
+
                 if (purchase[i].count > 1) {
                     //Уменьшаем кол-во на 1
                     purchase[i].count--;
@@ -428,23 +428,28 @@ var app = (function () {
             var d = $(el).closest("div[data-role='modalview']");
             $(d).kendoMobileModalView("close");
             $("input[name='time']").val("");
-            
-           /* var product = [];
-            product[0] = "119488";
+
+            var product = [];
+            product[0] = 2992;
             var product_kol = [];
-            product_kol[0] = "100";
+            product_kol[0] = 100;
             //Делаем запрос к серверу
             $.ajax({
-                url: rootUrl,
+                url: "http://frontpad.ru/api/index.php",
                 type: "POST",
-               // content:"text/html; charset=utf-8",
-                data: {"product[]" : product[0], "product_kol[]" : product_kol[0], "secret" : "NhyiD2iEFrrrKNHHfszn"},
-                complete: function (data) {
-                    alert(data.responseText);
+              //  crossdomain: true,
+                // content:"text/html; charset=utf-8",
+                data: {
+                    "product[]": product[0],
+                    "product_kol[]": product_kol[0],
+                    "secret": "NhyiD2iEFrrrKNHHfszn"
+                },
+                success: function (data) {
+                   // alert(data);
                 }
-            });*/
-            
-           /* function postResult(elem) {
+            });
+
+            /* function postResult(elem) {
 				var xhr = new XMLHttpRequest();
 				var params = 'result_cat=' + elem.value;
 				xhr.open('POST', '/test_selected_category.php', true);
@@ -456,7 +461,7 @@ var app = (function () {
 				}
 				xhr.send(params);
 				}*/
-            
+
         }
     }
 
@@ -506,7 +511,7 @@ var app = (function () {
         //Считываем с файла пользователя
         rwd.read(dirName, userFile, null);
 
-       
+
     }
 
     function mB(e) {
@@ -557,25 +562,25 @@ var app = (function () {
     }
 
     function renderWithHistory() {
-       
-		for(var i=0; i<purchaseHist.length; i++) {  
-                var img = $("#img" + purchaseHist[i].id); 
-                $(img).css('width', 0+'px');
-                $(img).data('direct', 1);
-                $(img).closest('li').css('height', 75+'px');
-                var div = $(img).closest('li').find('div').css('display', 'block');  
-                $(div).find('span:nth-child(2)').html(purchaseHist[i].count);
-                $(img).closest('li').find('h4').find('a').css('display', 'none'); 
-                
-               var item = new Item(purchaseHist[i].id);
-                item.count = purchaseHist[i].count;
-                item.price = purchaseHist[i].price;
-                item.total = purchaseHist[i].count*purchaseHist[i].price;
-               purchase.push(item);    
-                
-               agregate();
-                
-            } 
+
+        for (var i = 0; i < purchaseHist.length; i++) {
+            var img = $("#img" + purchaseHist[i].id);
+            $(img).css('width', 0 + 'px');
+            $(img).data('direct', 1);
+            $(img).closest('li').css('height', 75 + 'px');
+            var div = $(img).closest('li').find('div').css('display', 'block');
+            $(div).find('span:nth-child(2)').html(purchaseHist[i].count);
+            $(img).closest('li').find('h4').find('a').css('display', 'none');
+
+            var item = new Item(purchaseHist[i].id);
+            item.count = purchaseHist[i].count;
+            item.price = purchaseHist[i].price;
+            item.total = purchaseHist[i].count * purchaseHist[i].price;
+            purchase.push(item);
+
+            agregate();
+
+        }
     }
 
     function getPurchaseHistory(history) {
@@ -590,12 +595,12 @@ var app = (function () {
             var item = new ItemHist(+t[0], +t[1], +t[2]);
             purchaseHist.push(item);
         }
-       /*   var item1 = new ItemHist(1,2,290);
-        purchaseHist.push(item1);
-        var item2 = new ItemHist(2,3,120);
-        purchaseHist.push(item2);*/
-        
-         setTimeout(renderWithHistory, 300);
+        /*   var item1 = new ItemHist(1,2,290);
+         purchaseHist.push(item1);
+         var item2 = new ItemHist(2,3,120);
+         purchaseHist.push(item2);*/
+
+        setTimeout(renderWithHistory, 300);
     }
 
     //Автозаполнение полей форм
