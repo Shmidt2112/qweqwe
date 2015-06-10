@@ -20,8 +20,8 @@ var app = (function () {
             {
                 id: 0,
                 name: "Ролл Америка",
-                description: "рис,коп.лосось,коп.угорь,лосось терияке,огурец,сливоч.сыр (350гр.)",
-                url: "images/15.png",
+                description: "рис, коп.лосось, коп. угорь, лосось терияке, огурец, сливоч.сыр (350гр.)",
+                url: "images/19.jpg",
                 price: 250,
                 letter: "Роллы",
                 hash: "rolls"
@@ -29,8 +29,8 @@ var app = (function () {
             {
                 id: 1,
                 name: "Казань",
-                description: "рис,коп.лосось,креветка,огурец,сливоч.сыр (350гр.)",
-                url: "images/16.png",
+                description: "рис, коп.лосось, креветка, огурец, сливоч.сыр (350гр.)",
+                url: "images/20.jpg",
                 price: 260,
                 letter: "Роллы",
                 hash: "rolls"
@@ -38,8 +38,8 @@ var app = (function () {
             {
                 id: 2,
                 name: "Хоккайдо",
-                description: "рис,коп.угорь,лосось,слив.сыр,кунжут (250гр.)",
-                url: "images/2.jpg",
+                description: "рис, коп.угорь, лосось, слив.сыр, кунжут (250гр.)",
+                url: "images/19.jpg",
                 price: 180,
                 letter: "Роллы",
                 hash: "rolls"
@@ -47,8 +47,8 @@ var app = (function () {
             {
                 id: 3,
                 name: "Атлантический",
-                description: "рис,лосось,угорь,сливоч.сыр,огурец,тобико (255гр.)",
-                url: "images/3.jpg",
+                description: "рис, лосось, угорь, сливоч.сыр, огурец, тобико (255гр.)",
+                url: "images/19.jpg",
                 price: 180,
                 letter: "Роллы",
                 hash: "rolls"
@@ -56,8 +56,8 @@ var app = (function () {
             {
                 id: 4,
                 name: "Император",
-                description: "рис,коп.угорь,маринов.имбирь,огурец,сливоч.сыр (250гр.)",
-                url: "images/4.jpg",
+                description: "рис, коп.угорь, маринов.имбирь, огурец, сливоч.сыр (250гр.)",
+                url: "images/19.jpg",
                 price: 185,
                 letter: "Роллы",
                 hash: "rolls"
@@ -65,8 +65,8 @@ var app = (function () {
             {
                 id: 5,
                 name: "Самурай",
-                description: "рис,коп.угорь,лосось,авокадо,сливоч.сыр (250гр.)",
-                url: "images/5.jpg",
+                description: "рис, коп.угорь, лосось, авокадо, сливоч.сыр (250гр.)",
+                url: "images/19.jpg",
                 price: 180,
                 letter: "Роллы",
                 hash: "rolls"
@@ -87,6 +87,28 @@ var app = (function () {
             }
         }
     });
+
+   /* dataSource = new kendo.data.DataSource({
+        transport: {
+            read: {
+                url: "scripts/data.js",
+                type: "get",
+                dataType: "json"
+            }
+        },
+        schema: {
+            data: "groupedData",
+            model: {
+                     id: "id"
+            }
+        },
+        group: "letter",
+        filter: {
+            field: "name",
+            operator: "startswith",
+            value: ""
+        }
+    });*/
 
     var Item = function (id) {
         this.id = id;
@@ -191,15 +213,10 @@ var app = (function () {
                 ignoreCase: true,
                 value: e.view.params.item
             });
-        }
-
-        //Считываем с текстового файла историю покупок
-        rwd.read(dirName, fileName, null);
-        /*    var item1 = new ItemHist(1,2,290);
-           purchaseHist.push(item1);
-           var item2 = new ItemHist(2,3,120);
-           purchaseHist.push(item2);
-           renderWithHistory();*/
+        }// else {
+             //Считываем с текстового файла историю покупок
+        	rwd.read(dirName, fileName, null);
+       // }
     }
 
     function hideMain(e) {
@@ -223,16 +240,17 @@ var app = (function () {
         }
         $("#basket").text(sum);
         //Все изменения записываем в файл
+         var delivery = "";
         if (purchase.length > 0) {
-            var delivery = "";
+           
             for (var i = 0; i < purchase.length; i++) {
                 delivery += purchase[i].id + "|" + purchase[i].count + "|" + purchase[i].price + ";";
             }
             //Удаляем последний знак ';'
             delivery = delivery.slice(0, -1);
-            //Записываем в текстовый файл совершённый заказ
-            rwd.write(dirName, fileName, delivery);
         }
+        //Записываем в текстовый файл совершённый заказ
+        rwd.write(dirName, fileName, delivery);
     }
 
     function plus(e) {
@@ -257,14 +275,14 @@ var app = (function () {
         var directionAnimate = +$("#img" + id).data("direct");
 
         if (w > 0 && directionAnimate == 0) { ///если ширина >  0, уменьшаем ширину блока на 5px 
-            $(obj).css('width', w - 15 + "px");
-            $(obj).css('height', 75 + "px");
+            $(obj).css('width', w - 10 + "px");
+            $(obj).css('height', 80 + "px");
         }
 
         if (w < 75 && directionAnimate == 1) ///если ширина < 75, уменьшаем ширину блока на 5px
         {
-            $(obj).css('width', w + 15 + "px");
-            $(obj).css('height', 75 + "px");
+            $(obj).css('width', w + 10 + "px");
+            $(obj).css('height', 80 + "px");
         }
 
         if (w == 0 && directionAnimate == 0) { ///если нет, разрушим интервал (перестанем вызывать функцию animation()) 
@@ -273,7 +291,7 @@ var app = (function () {
             clearInterval(timer);
         }
 
-        if (w == 75 && directionAnimate == 1) { ///если нет, разрушим интервал (перестанем вызывать функцию animation())  
+        if (w == 80 && directionAnimate == 1) { ///если нет, разрушим интервал (перестанем вызывать функцию animation())  
             directionAnimate = 0;
             $("#img" + id).data("direct", directionAnimate);
             clearInterval(timer);
@@ -282,6 +300,7 @@ var app = (function () {
     }
 
     function minus(e) {
+        
         for (var i = 0; i < purchase.length; i++) {
             //alert(typeof purchase[i].id + " " + typeof $(e.target).next().data("id"));
             if (purchase[i].id === $(e.target).next().data("id")) {
@@ -311,19 +330,21 @@ var app = (function () {
                     $(button).data("on", false);
                     var directionAnimate = parseInt($("#" + $(e.target).next().data("direct")));
                     if (directionAnimate == 0) {
+                        
                         $("#" + $(e.target).next().data("id")).fadeToggle("fast");
+                        setTimeout(function () {
+                            $(button).fadeToggle("fast");
+                        }, 300);
                         //setTimeout(function(){ $("#" + $(e.target).next().data("id")).fadeToggle("fast");}, 300);
                         //$(button).css("display", "block");
                         //setTimeout(function(){ $(button).fadeToggle("fast");}, 300);
-                        setTimeout(function () {
-                            $(button).fadeToggle("fast");
-                        }, 400);
+                        
                     } else {
-
+						
                         $("#" + $(e.target).next().data("id")).fadeToggle("fast");
                         setTimeout(function () {
                             $(button).fadeToggle("fast");
-                        }, 400);
+                        }, 300);
                         //$(button).fadeToggle("fast");
                         //$(button).css("display", "block");
                     }
@@ -435,9 +456,9 @@ var app = (function () {
             product_kol[0] = 100;
             //Делаем запрос к серверу
             $.ajax({
-                url: "http://frontpad.ru/api/index.php",
+                url: rootUrl,
                 type: "POST",
-              //  crossdomain: true,
+                //  crossdomain: true,
                 // content:"text/html; charset=utf-8",
                 data: {
                     "product[]": product[0],
@@ -445,7 +466,7 @@ var app = (function () {
                     "secret": "NhyiD2iEFrrrKNHHfszn"
                 },
                 success: function (data) {
-                   // alert(data);
+                    // alert(data);
                 }
             });
 
@@ -567,11 +588,12 @@ var app = (function () {
             var img = $("#img" + purchaseHist[i].id);
             $(img).css('width', 0 + 'px');
             $(img).data('direct', 1);
-            $(img).closest('li').css('height', 75 + 'px');
-            var div = $(img).closest('li').find('div').css('display', 'block');
-            $(div).find('span:nth-child(2)').html(purchaseHist[i].count);
-            $(img).closest('li').find('h4').find('a').css('display', 'none');
-
+            $(img).closest('li').css('height', 80 + 'px');
+            var div = $(img).closest('li').find('#' + purchaseHist[i].id).css('display', 'block');
+           // $(div).find('span').html(purchaseHist[i].count);
+            
+            $(img).closest('li').find('.prices').find('a').css('display', 'none');
+			$("span[data-id='"+purchaseHist[i].id+"']").text(purchaseHist[i].count);
             var item = new Item(purchaseHist[i].id);
             item.count = purchaseHist[i].count;
             item.price = purchaseHist[i].price;
@@ -588,6 +610,7 @@ var app = (function () {
         var vals = history.split(";");
         //Обнуляем purchaseHist перед чтением с файала истории
         purchaseHist.length = 0;
+        purchase.length = 0;
         //Формируем массив объектов истории покупок
         for (var i = 0; i < vals.length; i++) {
             var t = vals[i].split("|");
