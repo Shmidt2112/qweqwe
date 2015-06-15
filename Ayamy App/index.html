@@ -25,8 +25,7 @@
                 <a data-role="button" data-align="left" data-rel="popover" href="#sale" style="color:#EEB422" data-icon="info"></a>
                 <a data-role="button" data-click="app.goBasket" data-align="right" style="color:#EEB422" data-icon="basket"><span id="basket">0</span> P</a>
             </div>
-        </div>
-         <span class="tooltip" id="dd"></span>
+        </div>  
     </div>
     <div data-role="view" id="main-view" data-layout="main-layout" data-title="Аями" data-init="app.init" data-show="app.show" data-hide="app.hide" data-reload="false">
         <div id="sale" data-role="popover" data-popup='{"height": "16em", "width": "20em"}'>
@@ -34,6 +33,7 @@
                 <h2 style="color:#EEB422">При заказе от 1000 рублей предоставляется скидка 5%</h2>
             </div>
         </div>
+        <span class="tooltip"></span>
         <div id="qr" data-role="popover" data-popup='{"height": "19em", "width": "19em"}'>
             <div data-role="view" data-title="QR-cod">
                 <div id="qrCode"></div>
@@ -83,7 +83,7 @@
     <div data-role="view" id="basket" data-show="app.initBasketView">
         <div data-role="header">
             <div data-role="navbar">
-                <a data-role="backbutton" data-icon="home" data-align="left" data-click="app.back"></a>
+                <a data-role="backbutton" data-icon="home" data-align="left" data-click="app.back">Назад</a>
                 <a id="fin" data-role="button" style="float:right;color:#EEB422" data-click="app.ready" data-icon="basket" data-align="right"><span id="finish"></span> Р</a>
             </div>
         </div>
@@ -111,6 +111,7 @@
                 <a data-role="button" class="delivery">Ко времени</a>
             </div>
         </div>
+        <div class="tooltip" style="margin-top: 35px;"></div>
     </div>
     <div id="submModal" data-role="modalview" style="width: 90%;" data-title="Данные" data-model="submView">
         <div data-role="header">

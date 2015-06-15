@@ -18,10 +18,38 @@ var app = (function () {
         }),
         groupedData = [
             {
+                 id: 444,
+                name: "Абхазия1",
+                description: "рис, коп.лосось, коп. угорь, лосось терияке, огурец, сливоч.сыр (350гр.)",
+                url: "images/20.jpg",
+                price: 333,
+                letter: "Роллы",
+                hash: "rolls"
+            },
+            {
+                 id: 445,
+                name: "Абхазия2",
+                description: "рис, коп.лосось, коп. угорь, лосось терияке, огурец, сливоч.сыр (350гр.)",
+                url: "images/20.jpg",
+                price: 333,
+                letter: "Роллы",
+                hash: "rolls"
+            },
+            {
+                id: 446,
+                name: "Абхазия3",
+                description: "рис, коп.лосось, коп. угорь, лосось терияке, огурец, сливоч.сыр (350гр.)",
+                url: "images/20.jpg",
+                price: 333,
+                letter: "Роллы",
+                hash: "rolls"
+                
+            },
+            {
                 id: 0,
                 name: "Ролл Америка",
                 description: "рис, коп.лосось, коп. угорь, лосось терияке, огурец, сливоч.сыр (350гр.)",
-                url: "images/19.jpg",
+                url: "images/30.jpg",
                 price: 250,
                 letter: "Роллы",
                 hash: "rolls"
@@ -30,7 +58,7 @@ var app = (function () {
                 id: 1,
                 name: "Казань",
                 description: "рис, коп.лосось, креветка, огурец, сливоч.сыр (350гр.)",
-                url: "images/20.jpg",
+                url: "images/31.jpg",
                 price: 260,
                 letter: "Роллы",
                 hash: "rolls"
@@ -39,7 +67,7 @@ var app = (function () {
                 id: 2,
                 name: "Хоккайдо",
                 description: "рис, коп.угорь, лосось, слив.сыр, кунжут (250гр.)",
-                url: "images/19.jpg",
+                url: "images/32.jpg",
                 price: 180,
                 letter: "Роллы",
                 hash: "rolls"
@@ -48,26 +76,51 @@ var app = (function () {
                 id: 3,
                 name: "Атлантический",
                 description: "рис, лосось, угорь, сливоч.сыр, огурец, тобико (255гр.)",
-                url: "images/19.jpg",
+                url: "images/40.jpg",
                 price: 180,
                 letter: "Роллы",
                 hash: "rolls"
             },
             {
                 id: 4,
-                name: "Император",
+                name: "АИмператор",
                 description: "рис, коп.угорь, маринов.имбирь, огурец, сливоч.сыр (250гр.)",
-                url: "images/19.jpg",
+                url: "images/41.jpg",
                 price: 185,
                 letter: "Роллы",
                 hash: "rolls"
             },
             {
                 id: 5,
-                name: "Самурай",
+                name: "БАСамурай",
                 description: "рис, коп.угорь, лосось, авокадо, сливоч.сыр (250гр.)",
-                url: "images/19.jpg",
+                url: "images/42.jpg",
                 price: 180,
+                letter: "Роллы",
+                hash: "rolls"
+            }, {
+                id: 6,
+                name: "ББанзай",
+                description: "рис, коп.угорь, лосось, авокадо, сливоч.сыр (650гр.)",
+                url: "images/55.jpg",
+                price: 555,
+                letter: "Роллы",
+                hash: "rolls"
+            },
+            {
+                id: 7,
+                name: "БМальта",
+                description: "рис, коп.угорь, лосось, авокадо, сливоч.сыр (750гр.)",
+                url: "images/56.jpg",
+                price: 666,
+                letter: "Роллы",
+                hash: "rolls"
+            },{
+                 id: 8,
+                name: "Ямайка",
+                description: "рис, коп.угорь, лосось, авокадо, сливоч.сыр (750гр.)",
+                url: "images/60.jpg",
+                price: 777,
                 letter: "Роллы",
                 hash: "rolls"
             }
@@ -81,6 +134,7 @@ var app = (function () {
             operator: "startswith",
             value: ""
         },
+        sort: { field: "name", dir: "asc" },
         schema: {
             model: {
                 id: "id"
@@ -88,27 +142,27 @@ var app = (function () {
         }
     });
 
-   /* dataSource = new kendo.data.DataSource({
-        transport: {
-            read: {
-                url: "scripts/data.js",
-                type: "get",
-                dataType: "json"
-            }
-        },
-        schema: {
-            data: "groupedData",
-            model: {
-                     id: "id"
-            }
-        },
-        group: "letter",
-        filter: {
-            field: "name",
-            operator: "startswith",
-            value: ""
-        }
-    });*/
+    /* dataSource = new kendo.data.DataSource({
+         transport: {
+             read: {
+                 url: "scripts/data.js",
+                 type: "get",
+                 dataType: "json"
+             }
+         },
+         schema: {
+             data: "groupedData",
+             model: {
+                      id: "id"
+             }
+         },
+         group: "letter",
+         filter: {
+             field: "name",
+             operator: "startswith",
+             value: ""
+         }
+     });*/
 
     var Item = function (id) {
         this.id = id;
@@ -213,10 +267,10 @@ var app = (function () {
                 ignoreCase: true,
                 value: e.view.params.item
             });
-        }// else {
-             //Считываем с текстового файла историю покупок
-        	rwd.read(dirName, fileName, null);
-       // }
+        } // else {
+        //Считываем с текстового файла историю покупок
+        rwd.read(dirName, fileName, null);
+        // }
     }
 
     function hideMain(e) {
@@ -240,9 +294,9 @@ var app = (function () {
         }
         $("#basket").text(sum);
         //Все изменения записываем в файл
-         var delivery = "";
+        var delivery = "";
         if (purchase.length > 0) {
-           
+
             for (var i = 0; i < purchase.length; i++) {
                 delivery += purchase[i].id + "|" + purchase[i].count + "|" + purchase[i].price + ";";
             }
@@ -300,7 +354,7 @@ var app = (function () {
     }
 
     function minus(e) {
-        
+
         for (var i = 0; i < purchase.length; i++) {
             //alert(typeof purchase[i].id + " " + typeof $(e.target).next().data("id"));
             if (purchase[i].id === $(e.target).next().data("id")) {
@@ -330,7 +384,7 @@ var app = (function () {
                     $(button).data("on", false);
                     var directionAnimate = parseInt($("#" + $(e.target).next().data("direct")));
                     if (directionAnimate == 0) {
-                        
+
                         $("#" + $(e.target).next().data("id")).fadeToggle("fast");
                         setTimeout(function () {
                             $(button).fadeToggle("fast");
@@ -338,9 +392,9 @@ var app = (function () {
                         //setTimeout(function(){ $("#" + $(e.target).next().data("id")).fadeToggle("fast");}, 300);
                         //$(button).css("display", "block");
                         //setTimeout(function(){ $(button).fadeToggle("fast");}, 300);
-                        
+
                     } else {
-						
+
                         $("#" + $(e.target).next().data("id")).fadeToggle("fast");
                         setTimeout(function () {
                             $(button).fadeToggle("fast");
@@ -428,7 +482,15 @@ var app = (function () {
 
         //Если все поля введены, записываем в файл и закрываем окно
         if (validator.validate($(e.target).data("form"))) {
-            var user = this.name + "|" + this.tel;
+
+            var user = "";
+
+            if (this.name) {
+                user += this.name;
+            }
+            if (this.tel) {
+                user += "|" + this.tel;
+            }
             if (this.street) {
                 user += "|" + this.street;
             }
@@ -444,13 +506,20 @@ var app = (function () {
             if (this.flat) {
                 user += "|" + this.flat;
             }
-            rwd.write(dirName, userFile, user);
+
+            if (user) {
+                rwd.write(dirName, userFile, user);
+            }
+
             var el = $(e.target).data("form");
             var d = $(el).closest("div[data-role='modalview']");
             $(d).kendoMobileModalView("close");
             $("input[name='time']").val("");
 
-            var product = [];
+
+            //  $("span.tooltip").text();
+
+         /*   var product = [];
             product[0] = 2992;
             var product_kol = [];
             product_kol[0] = 100;
@@ -466,23 +535,17 @@ var app = (function () {
                     "secret": "NhyiD2iEFrrrKNHHfszn"
                 },
                 success: function (data) {
-                    // alert(data);
-                }
-            });
-
-            /* function postResult(elem) {
-				var xhr = new XMLHttpRequest();
-				var params = 'result_cat=' + elem.value;
-				xhr.open('POST', '/test_selected_category.php', true);
-				xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-				xhr.onreadystatechange = function() {
-					if (this.readyState == 4 && this.status == 200) {
-						alert(this.responseText);
+                    if (data.Success) {
+                        setTimeout(function () {
+                            $("div.tooltip").text("Спасибо за заказ, в скором времени наш менеджер свяжеться с вами! :)").slideDown("normal").delay(3000).slideUp("normal");
+                        }, 500);
+                    } else {
+                         setTimeout(function () {
+                            $("div.tooltip").text("Что-то пошло не так :( Попробуйте позже.").slideDown("normal").delay(3000).slideUp("normal");
+                        }, 500);
                     }
-				}
-				xhr.send(params);
-				}*/
-
+                }
+            });*/
         }
     }
 
@@ -531,8 +594,6 @@ var app = (function () {
         $("input[name='person']").val(1);
         //Считываем с файла пользователя
         rwd.read(dirName, userFile, null);
-
-
     }
 
     function mB(e) {
@@ -590,10 +651,10 @@ var app = (function () {
             $(img).data('direct', 1);
             $(img).closest('li').css('height', 80 + 'px');
             var div = $(img).closest('li').find('#' + purchaseHist[i].id).css('display', 'block');
-           // $(div).find('span').html(purchaseHist[i].count);
-            
+            // $(div).find('span').html(purchaseHist[i].count);
+
             $(img).closest('li').find('.prices').find('a').css('display', 'none');
-			$("span[data-id='"+purchaseHist[i].id+"']").text(purchaseHist[i].count);
+            $("span[data-id='" + purchaseHist[i].id + "']").text(purchaseHist[i].count);
             var item = new Item(purchaseHist[i].id);
             item.count = purchaseHist[i].count;
             item.price = purchaseHist[i].price;

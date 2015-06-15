@@ -30,8 +30,8 @@ var rwd = (function () {
                             if (evt.target.result !== curVersion) { //Если версии не совпадают, обновляем и записываем в файл текущую версию
                                // alert(curVersion);
                                 //Уведомляем пользователя об обновлении
-                               // $("#dd").text("Внимание, ваша версия приложения устарела, сейчас произойдёт обновление!").slideDown("normal").delay(3000).slideUp("normal");
-                                alert("Внимание, ваша версия приложения устарела, сейчас произойдёт обновление!");
+                                $("span.tooltip").text("Внимание, ваша версия приложения устарела, сейчас произойдёт обновление!").slideDown("normal").delay(3000).slideUp("normal");
+                               // alert("Ваша версия устарела, сейчас произойдёт обновление!");
                                 setTimeout(function () {
                                     window.livesync.sync();
                                     rwd.write(dirName, fileName, curVersion);
