@@ -1,6 +1,6 @@
 .header {
-    background-color: whitesmoke !important;
-    color: black !important;
+    background-color: #363636 !important;
+    color: whitesmoke !important;
 }
 .km-filter:before,
 .km-filter:after {
@@ -15,20 +15,20 @@
     content: "\e0d1"
 }
 .km-flat .km-list>li {
-    color: black;
-    background-color: whitesmoke;
+    background-color: black;
+    color: whitesmoke;
     font-weight: normal;
 }
 .km-flat,
 .km-flat .km-navbar,
 .km-flat .km-detail,
 .km-flat .km-content {
-    color: black;
-    background-color: whitesmoke;
+    color: whitesmoke;
+    background-color: black;
 }
 .km-flat .km-group-title {
-    background-color: whitesmoke;
-    color: black;
+    background-color: black;
+    color: whitesmoke;
     text-align: center;
 }
 .items {
@@ -62,7 +62,6 @@
     font-size: 0.8em;
     display: block;     
     padding-top: 1px;
-
 }
 .left {
     margin-left: 0px !important;
@@ -115,8 +114,8 @@
     text-shadow: 0 1px 0 rgba(255, 255, 255, .4);
 }
 input[type=search] {
-    background-color: whitesmoke !important;
-    color: black !important;
+    background-color: dimgray !important;
+    color: whitesmoke !important;
     border-radius: 10px !important;
     font-weight: normal !important;
     font-size: 12px !important;
@@ -151,7 +150,7 @@ input[type=search] {
 .km-flat li.km-state-active .km-listview-label,
 .km-flat .km-listview-label input[type=radio]:checked,
 .km-flat .km-listview-label input[type=checkbox]:checked {
-    background-color: whitesmoke;
+    background-color: black;
 }
 .km-list>li {
     padding: 0px;
@@ -187,11 +186,34 @@ li>div>span {
 
 .border-validate::-webkit-input-placeholder {
     /*color: #d9534f*/
-    
     color: gray;
 }
 .border-validate::-moz-placeholder {
     /*color: #d9534f*/
-    
     color: gray;
 }
+
+/*Режим портрет для маленьких смартфонов*/
+@media screen and (orientation: portrait) and (min-width: 240px) and (max-width: 281px) {
+    .item-center {
+        float: left;
+        width: 139px;
+    }
+}
+
+/*Режим портрет для средних смартфонов*/
+@media screen and (orientation: portrait) and (min-width: 281px) and (max-width: 349px) {
+    .item-center {
+        float: left;
+        width: 139px;
+    }
+}
+
+/*Режим портрет для больших смартфонов*/
+@media screen and (orientation: portrait) and (min-width: 350px) and (max-width: 500px) {
+    .item-center {
+        float: left;
+        width: 180px;
+    }
+}
+

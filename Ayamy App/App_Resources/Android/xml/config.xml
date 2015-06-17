@@ -9,7 +9,7 @@
     <preference name="useBrowserHistory" value="true" />
     <preference name="exit-on-suspend" value="false" />
     
-	<preference name="splashScreenDelay" value="1" />
+	<!--<preference name="splashScreenDelay" value="1" />-->
     
     <!-- For projects that target Apache Cordova 3.0.0 only, this <feature></feature> block ensures that button events and App plugin-related functionality will work as expected. -->
     <feature name="App">

@@ -8,7 +8,7 @@
     <link href="styles/main.css" rel="stylesheet" />
     <script src="cordova.js"></script>
     <script src="kendo/js/jquery.min.js"></script>
-    <!-- <script src="http://cdn.kendostatic.com/2015.1.429/js/kendo.all.min.js"></script>-->
+    <!--<script src="http://cdn.kendostatic.com/2015.1.429/js/kendo.all.min.js"></script>-->
     <script src="kendo/js/kendo.mobile.min.js"></script>
     <script src="https://bs-static.cdn.telerik.com/latest/everlive.all.min.js"></script>
     <script src="scripts/rwd.js"></script>
@@ -39,7 +39,9 @@
                 <div id="qrCode"></div>
             </div>
         </div>
-        <ul id="main-list" data-style="inset"  data-source="Products.data"></ul>
+        <div data-role="scroller" style="width: 100%; height: 100%;" id="scroller" data-elastic="false">
+                <ul id="main-list" data-style="inset" ></ul>
+        </div>
     </div>
     <div data-role="drawer" id="filterView" data-init="app.filterViewInit" data-title="Фильтр" data-position="left" style="width: 250px;">
         <header data-role="header">
@@ -58,15 +60,23 @@
         <ul data-role="listview" data-style="inset">
             <li><a data-role="button" href="#main-view?hash=all">Все</a>
             </li>
-            <li><a data-role="button" href="#main-view?hash=new">New</a>
-            </li>
-            <li><a data-role="button" href="#main-view?hash=sushi">Суши</a>
-            </li>
-            <li><a data-role="button" href="#main-view?hash=soups">Супы</a>
+            <li><a data-role="button" href="#main-view?hash=sushi-pizza">Суши пицца</a>
             </li>
             <li><a data-role="button" href="#main-view?hash=rolls">Роллы</a>
             </li>
-            <li><a data-role="button" href="#main-view?hash=salads">Салаты</a>
+            <li><a data-role="button" href="#main-view?hash=sushi">Суши</a>
+            </li>
+            <li><a data-role="button" href="#main-view?hash=assorted">Ассорти</a>
+            </li>
+            <li><a data-role="button" href="#main-view?hash=dish">Блюда</a>
+            </li>
+            <li><a data-role="button" href="#main-view?hash=soups">Супы</a>
+            </li>
+            <li><a data-role="button" href="#main-view?hash=snacks">Закуски</a>
+            </li>
+            <li><a data-role="button" href="#main-view?hash=drinkables">Напитки</a>
+            </li>
+            <li><a data-role="button" href="#main-view?hash=extra">Дополнительно</a>
             </li>
         </ul>
         <ul data-role="listview" data-style="inset" style="display:none">
@@ -224,8 +234,8 @@
     </div>
     <script type="text/x-kendo-template" id="main-template">
         <img src="${url}" style="float:left;" id="img${id}" data-direct="0" />
-        <div style="float:left;width:40%;">
-        	<span>${name}</span>
+        <div class="item-center">
+        	<div style="margin-left:5px;">${name}</div>
              <span class="description">${description}</span>
         </div>
         <div id="${id}" style="float:right;display: none;margin-top:6%;margin-right:10px;border:1px solid rgb(245, 245, 245);border-radius:12px;text-align:center;">
@@ -237,7 +247,7 @@
     </script>
     <script type="text/x-kendo-template" id="basket-template">
         <img src="${url}" style="float:left;" id="imgB${id}" data-direct="0" />
-        <span class="items">${name}</span>
+        <div class="items">${name}</div>
         <div id="b${id}" style="float:right;display: none;margin-top:6%;margin-right:10px;border:1px solid rgb(245, 245, 245);border-radius:12px;text-align:center;">
             <a data-role="button" data-click="app.mB">-</a><span data-id="${id}" data-price="${price}">${count}</span><a data-role="button" data-click="app.pB">+</a>
         </div>
