@@ -27,7 +27,7 @@
             </div>
         </div>  
     </div>
-    <div data-role="view" id="main-view" data-layout="main-layout" data-title="Аями" data-init="app.init" data-show="app.show" data-hide="app.hide" data-reload="false">
+    <div data-role="view" id="main-view" data-layout="main-layout" data-title="Аями" data-use-native-scrolling="true" data-after-show="app.hideLoader" data-init="app.init" data-show="app.show" data-hide="app.hide" data-reload="false">
         <div id="sale" data-role="popover" data-popup='{"height": "16em", "width": "20em"}'>
             <div data-role="view" data-title="Скидка">
                 <h2 style="color:#EEB422">При заказе от 1000 рублей предоставляется скидка 5%</h2>
@@ -39,11 +39,12 @@
                 <div id="qrCode"></div>
             </div>
         </div>
-        <div data-role="scroller" style="width: 100%; height: 100%;" id="scroller" data-elastic="false">
+      <!--  <div data-role="scroller" style="width: 100%; height: 100%;" id="scroller">
                 <ul id="main-list" data-style="inset" ></ul>
-        </div>
+        </div> -->
+        <ul id="main-list" data-style="inset"></ul>
     </div>
-    <div data-role="drawer" id="filterView" data-init="app.filterViewInit" data-title="Фильтр" data-position="left" style="width: 250px;">
+    <div data-role="drawer" id="filterView" data-init="app.filterViewInit" data-hide="app.showLoader" data-title="Фильтр" data-position="left" style="width: 250px;">
         <header data-role="header">
             <div data-role="navbar">
                 <span data-role="view-title"></span>
@@ -57,10 +58,12 @@
                 Ингредиенты
             </li>
         </ul>
-        <ul data-role="listview" data-style="inset">
+        <ul data-role="listview" data-style="inset" >
             <li><a data-role="button" href="#main-view?hash=all">Все</a>
             </li>
             <li><a data-role="button" href="#main-view?hash=sushi-pizza">Суши пицца</a>
+            </li>
+            <li><a data-role="button" href="#main-view?hash=pizza">Пицца</a>
             </li>
             <li><a data-role="button" href="#main-view?hash=rolls">Роллы</a>
             </li>
@@ -86,7 +89,7 @@
             </li>
             <li><a data-role="button" href="#main-view?item=краб">Мясо краба</a>
             </li>
-            <li><a data-role="button" href="#main-view?item=креветки">Креветки</a>
+            <li><a data-role="button" href="#main-view?item=креветк">Креветки</a>
             </li>
         </ul>
     </div>
