@@ -2,15 +2,15 @@
 <html>
 
 <head>
-    <title></title>
+    <title>Ayamy</title>
     <meta charset="utf-8" />
     <link href="kendo/styles/kendo.mobile.all.min.css" rel="stylesheet" />
     <link href="styles/main.css" rel="stylesheet" />
     <script src="cordova.js"></script>
     <script src="kendo/js/jquery.min.js"></script>
-    <!--<script src="http://cdn.kendostatic.com/2015.1.429/js/kendo.all.min.js"></script>-->
     <script src="kendo/js/kendo.mobile.min.js"></script>
-    <script src="https://bs-static.cdn.telerik.com/latest/everlive.all.min.js"></script>
+    <!--<script src="http://cdn.kendostatic.com/2015.1.429/js/kendo.all.min.js"></script>-->
+    <script src="kendo/js/everlive.all.min.js"></script>
     <script src="scripts/rwd.js"></script>
     <script src="scripts/validator.js"></script>
     <script src="scripts/app.js"></script>
@@ -27,10 +27,15 @@
             </div>
         </div>  
     </div>
-    <div data-role="view" id="main-view" data-layout="main-layout" data-title="Аями" data-use-native-scrolling="true" data-after-show="app.hideLoader" data-init="app.init" data-show="app.show" data-hide="app.hide" data-reload="false">
+    <div data-role="view" id="main-view" data-layout="main-layout" data-title="Аями" data-use-native-scrolling="false" data-after-show="app.hideLoader" data-init="app.init" data-show="app.show" data-hide="app.hide" data-reload="false">
         <div id="sale" data-role="popover" data-popup='{"height": "16em", "width": "20em"}'>
             <div data-role="view" data-title="Скидка">
                 <h2 style="color:#EEB422">При заказе от 1000 рублей предоставляется скидка 5%</h2>
+            </div>
+        </div>
+        <div id="bigImage" data-role="popover" data-popup='{"height": "16em", "width": "20em"}'>
+            <div data-role="view" data-title="Скидка">
+                
             </div>
         </div>
         <span class="tooltip"></span>
@@ -236,27 +241,30 @@
         </div>
     </div>
     <script type="text/x-kendo-template" id="main-template">
-        <img src="${url}" style="float:left;" id="img${id}" data-direct="0" />
+        <img src="#:url#" style="float:left;" id="img#:id#" data-direct="0" />
         <div class="item-center">
-        	<div style="margin-left:5px;">${name}</div>
-             <span class="description">${description}</span>
+        	<div style="margin-left:5px;">#:name#</div>
+            <span class="description">#:description#</span>
         </div>
-        <div id="${id}" style="float:right;display: none;margin-top:6%;margin-right:10px;border:1px solid rgb(245, 245, 245);border-radius:12px;text-align:center;">
-            <a data-role="button" data-click="app.m">-</a><span data-id="${id}" data-price="${price}">1</span><a data-role="button" data-click="app.p">+</a>
+        <div id="#:id#" class="priceCount">
+            <a data-role="button" data-click="app.m">-</a><span data-id="#:id#" data-price="#:price#">1</span><a data-role="button" data-click="app.p">+</a>
         </div>
         <div class="prices">
-        	<a data-role="button" class="prices" data-click="app.doPrice" data-on="false" data-id="${id}" data-price="${price}">${price} Р</a>
+        	<a data-role="button" class="prices" data-click="app.doPrice" data-on="false" data-id="#:id#" data-price="#:price#">#:price# Р</a>
         </div>
     </script>
     <script type="text/x-kendo-template" id="basket-template">
         <img src="${url}" style="float:left;" id="imgB${id}" data-direct="0" />
         <div class="items">${name}</div>
-        <div id="b${id}" style="float:right;display: none;margin-top:6%;margin-right:10px;border:1px solid rgb(245, 245, 245);border-radius:12px;text-align:center;">
+        <div id="b${id}" class="priceCount">
             <a data-role="button" data-click="app.mB">-</a><span data-id="${id}" data-price="${price}">${count}</span><a data-role="button" data-click="app.pB">+</a>
         </div>
         <h4 class="prices">
         	<a data-role="button" class="prices" data-click="app.doPriceBasket" data-on="false" data-id="${id}">${count} X ${price} Р</a>
         </h4>
+    </script>
+    <script type="text/x-kendo-template" id="image-template">
+        <img src="http://ayamibar.ru/images/rol/rol_ayami_mix.JPG" />
     </script>
 </body>
 

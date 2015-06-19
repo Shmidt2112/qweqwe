@@ -47,6 +47,15 @@
     border-radius: 5px !important; 
     margin-right: 7px;
 }
+.priceCount {
+    float:right;
+    display: none;
+    margin-top:6%;
+    margin-right:10px;
+    border:1px solid rgb(245, 245, 245);
+    border-radius:12px;
+    text-align:center;
+}
 .prices-clicked {
     float: right !important;
     border-color: whitesmoke !important;
@@ -156,6 +165,15 @@ input[type=search] {
     padding: 0px;
     line-height: 2.6em;
 }
+
+/*хер знает для чего*/
+.km-android .km-view {
+    -moz-box-direction: initial;
+    -webkit-box-direction: initial;
+    -ms-box-direction: initial;
+    box-direction: initial;
+}
+
 /*li>div {
     border: 1px solid;
     border-radius: 10px;
