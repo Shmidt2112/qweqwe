@@ -19,6 +19,8 @@ var rwd = (function () {
                     if (evt.target.result) {
                         //alert(evt.target.result);
                         app.getPurchaseHistory(evt.target.result);
+                    } else {
+                        app.getPurchaseHistory("no");
                     }
                 } else if (fileName === "AyamyUser.txt") {
                     if (evt.target.result) {

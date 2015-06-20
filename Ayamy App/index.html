@@ -27,7 +27,7 @@
             </div>
         </div>  
     </div>
-    <div data-role="view" id="main-view" data-layout="main-layout" data-title="Аями" data-use-native-scrolling="false" data-after-show="app.hideLoader" data-init="app.init" data-show="app.show" data-hide="app.hide" data-reload="false">
+    <div data-role="view" id="main-view" data-layout="main-layout" data-title="Аями" data-after-show="app.hideLoader" data-before-show="app.showLoader" data-init="app.init" data-show="app.show" data-hide="app.hide" data-reload="false">
         <div id="sale" data-role="popover" data-popup='{"height": "16em", "width": "20em"}'>
             <div data-role="view" data-title="Скидка">
                 <h2 style="color:#EEB422">При заказе от 1000 рублей предоставляется скидка 5%</h2>
@@ -49,7 +49,7 @@
         </div> -->
         <ul id="main-list" data-style="inset"></ul>
     </div>
-    <div data-role="drawer" id="filterView" data-init="app.filterViewInit" data-hide="app.showLoader" data-title="Фильтр" data-position="left" style="width: 250px;">
+    <div data-role="drawer" id="filterView" data-init="app.filterViewInit" data-title="Фильтр" data-position="left" style="width: 250px;">
         <header data-role="header">
             <div data-role="navbar">
                 <span data-role="view-title"></span>
@@ -66,15 +66,15 @@
         <ul data-role="listview" data-style="inset" >
             <li><a data-role="button" href="#main-view?hash=all">Все</a>
             </li>
-            <li><a data-role="button" href="#main-view?hash=sushi-pizza">Суши пицца</a>
-            </li>
-            <li><a data-role="button" href="#main-view?hash=pizza">Пицца</a>
-            </li>
             <li><a data-role="button" href="#main-view?hash=rolls">Роллы</a>
             </li>
             <li><a data-role="button" href="#main-view?hash=sushi">Суши</a>
             </li>
-            <li><a data-role="button" href="#main-view?hash=assorted">Ассорти</a>
+            <li><a data-role="button" href="#main-view?hash=assorted">Ассорти</a>          
+            </li>
+            <li><a data-role="button" href="#main-view?hash=pizza">Пицца</a>            
+            </li>
+            <li><a data-role="button" href="#main-view?hash=sushi-pizza">Суши пицца</a>              
             </li>
             <li><a data-role="button" href="#main-view?hash=dish">Блюда</a>
             </li>
@@ -102,7 +102,7 @@
         <div data-role="header">
             <div data-role="navbar">
                 <a data-role="backbutton" data-icon="home" data-align="left" data-click="app.back">Назад</a>
-                <a id="fin" data-role="button" style="float:right;color:#EEB422" data-click="app.ready" data-icon="basket" data-align="right"><span id="finish"></span> Р</a>
+                <a id="fin" data-role="button" data-click="app.removeAll" data-icon="trash" data-align="right">Очистить</a>
             </div>
         </div>
         <h3 style="text-align:center;color:gray" id="hready">
@@ -241,7 +241,7 @@
         </div>
     </div>
     <script type="text/x-kendo-template" id="main-template">
-        <img src="#:url#" style="float:left;" id="img#:id#" data-direct="0" />
+      <img src="#:url#" style="float:left;" id="img#:id#" data-direct="0" /> 
         <div class="item-center">
         	<div style="margin-left:5px;">#:name#</div>
             <span class="description">#:description#</span>

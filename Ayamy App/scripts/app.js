@@ -39,24 +39,24 @@ var app = (function () {
             },
             // batch: true,
             group: {
-                field: "letter",
-                dir: "desc"
+                field: "order",
+                dir: "asc"
             },
             requestStart: function () {
                 if (mobileApp.hasOwnProperty("pane")) {
                     //$("span.tooltip").text("Загрузка...").show();
-                     mobileApp.pane.loader.show();
-                  //  $(mobileApp.pane.loader.element).show();
+                    mobileApp.pane.loader.show();
+                    //  $(mobileApp.pane.loader.element).show();
                 }
                 //kendo.ui.progress($("#loading"), true);
             },
             requestEnd: function () {
                 if (mobileApp.hasOwnProperty("pane")) {
-                   // $("span.tooltip").text("Загрузка...").hide();
+                    // $("span.tooltip").text("Загрузка...").hide();
                     mobileApp.pane.loader.hide();
-                   // setTimeout(function () {
-                  //      $(mobileApp.pane.loader.element).hide();
-                  // }, 3000);
+                    // setTimeout(function () {
+                    //      $(mobileApp.pane.loader.element).hide();
+                    // }, 3000);
                 }
             }
         });
@@ -111,28 +111,31 @@ var app = (function () {
                 rwd.read(dirName, versionFile, curVers);
             });
         }, 1000);
-        
+
         /*$("img").click(function (e) {
             $("#bigImage").kendoMobile
         })*/
-        
+
     }
 
     function initMain() {
         //Устанавливаем начальный список
         $("#main-list").kendoMobileListView({
             dataSource: dataSource,
-            filterable: {
+          /*  filterable: {
                 field: "name",
                 operator: "startswith",
                 placeholder: "     поиск..."
-            },
+            },*/
             template: $("#main-template").html(),
             //endlessScroll: true,
             // scrollTreshold: 30, //treshold in pixels
-            headerTemplate: "<h4 id='#= data.items[0].hash #' style='color:gray;margin:5px;'>${value}</h4>",
+            //headerTemplate: "<h4 id='#= data.items[0].hash #' style='color:gray;margin:5px;'>${value}</h4>",
+            headerTemplate: function (data) {
+                return "<h4 id='"+data.items[0].hash+"' style='color:gray;margin:5px;'>"+data.items[0].letter+"</h4>";
+            },
             fixedHeaders: true
-                //  headerTemplate: "<h4 style='color:gray;margin:5px;'>${value}</h4>"
+            //headerTemplate: "<h4 style='color:gray;margin:5px;'>${value}</h4>"
         });
 
         /*$("#qrCode").kendoQRCode({
@@ -146,19 +149,35 @@ var app = (function () {
 
         // $("#main-list").data("kendoMobileListView").refresh();
 
+        e.view.scroller.scrollTo(0,0);
         //Определяем тип параметра либо хэш либо ингредиент
         if (e.view.params.hasOwnProperty("hash")) {
+           
             if (e.view.params.hash === "all") {
                 //Сбрасываем фильтр
                 dataSource.filter([]);
             } else {
                 //Фильтруем существующий список по разделу
-                dataSource.filter({
+              /*  dataSource.filter({
                     field: "hash",
                     operator: "eq",
                     ignoreCase: true,
                     value: e.view.params.hash
-                });
+                });*/
+                var el = $("#" + e.view.params.hash);
+                 //Если элемент существует
+            if (el.hasOwnProperty("length")) {
+                 
+                //Получаем позицию элемента
+                 var pos = el.offset();
+                e.view.scroller.animatedScrollTo(0, -(pos.top-55))
+				// e.view.scroller.scrollTo(0,-(pos.top-55));
+            }
+                // e.view.element.find(".km-scroll-container").css("-webkit-transform", "translate3d(0px, 0px, 0px) scale(1)");
+                //Устанавливаем скролл на эту позицию
+                //    e.view.element.find(".km-scroll-container").css("-webkit-transform", "translate3d(0px, -" + (pos.top - 70) + "px, 0px) scale(1)");
+
+               
             }
         } else if (e.view.params.hasOwnProperty("item")) {
             //Фильтруем существующий список по терму
@@ -169,7 +188,7 @@ var app = (function () {
                 value: e.view.params.item
             });
         }
-        e.view.scroller.scrollTo(0, 0);
+       // e.view.scroller.scrollTo(0, 0);
         //Считываем с текстового файла историю покупок
         rwd.read(dirName, fileName, null);
     }
@@ -397,13 +416,22 @@ var app = (function () {
             $(d).kendoMobileModalView("close");
             $("input[name='time']").val("");
 
-
-            //  $("span.tooltip").text();
-
-            /*   var product = [];
-               product[0] = 2992;
-               var product_kol = [];
-               product_kol[0] = 100;
+            var product = [];
+            var productKol = [];
+            
+            for (var i=0; i< purchase.length; i++) {
+                //заносим артикулы
+                product.push(purchase[i].id);
+                //заносим кол-во
+                productKol.push(purchase[i].count);
+            }
+            
+          //  var data;
+            
+          //  for(var j=0)
+            
+              // product[0] = 2992;
+             //  product_kol[0] = 100;
                //Делаем запрос к серверу
                $.ajax({
                    url: rootUrl,
@@ -411,12 +439,23 @@ var app = (function () {
                    //  crossdomain: true,
                    // content:"text/html; charset=utf-8",
                    data: {
-                       "product[]": product[0],
-                       "product_kol[]": product_kol[0],
-                       "secret": "NhyiD2iEFrrrKNHHfszn"
+                       "product[]": product,
+                       "product_kol[]": productKol,
+                       "secret": "NhyiD2iEFrrrKNHHfszn",
+                       "name": this.name,
+                       "phone": this.tel,
+                       "street": this.street,
+                       "home": this.house,
+                       "pod": this.porch,
+                       "et": this.floor,
+                       "apart": this.flat,
+                     //  "mail": this.time
+                       "pers": this.person,
+                       "descr": this.comment
+                       
                    },
                    success: function (data) {
-                       if (data.Success) {
+                       if (data === "success") {
                            setTimeout(function () {
                                $("div.tooltip").text("Спасибо за заказ, в скором времени наш менеджер свяжеться с вами! :)").slideDown("normal").delay(3000).slideUp("normal");
                            }, 500);
@@ -426,7 +465,7 @@ var app = (function () {
                            }, 500);
                        }
                    }
-               });*/
+               });
         }
     }
 
@@ -477,6 +516,8 @@ var app = (function () {
         rwd.read(dirName, userFile, null);
     }
 
+
+
     function mB(e) {
         for (var i = 0; i < purchase.length; i++) {
             if (purchase[i].id === $(e.target).next().data("id")) {
@@ -487,7 +528,7 @@ var app = (function () {
                     $(e.target).next().text(purchase[i].count);
                     //Устанавливаем новую стоимость
                     purchase[i].total = purchase[i].count * purchase[i].price;
-                    break;
+                    // break;
                 } else {
                     for (var i = 0; i < purchase.length; i++) {
                         //if (curId === purchase[i].id) {
@@ -526,33 +567,77 @@ var app = (function () {
 
     function renderWithHistory() {
 
-        for (var i = 0; i < purchaseHist.length; i++) {
-            var img = $("#img" + purchaseHist[i].id);
-            $(img).css('width', 0 + 'px');
-            $(img).data('direct', 1);
-            $(img).closest('li').css('height', 80 + 'px');
-            var div = $(img).closest('li').find('#' + purchaseHist[i].id).css('display', 'block');
-            // $(div).find('span').html(purchaseHist[i].count);
+        if (purchaseHist.length > 0) {
+            for (var i = 0; i < purchaseHist.length; i++) {
+                var img = $("#img" + purchaseHist[i].id);
+                $(img).css('width', 0 + 'px');
+                $(img).data('direct', 1);
+                $(img).closest('li').css('height', 80 + 'px');
+                var div = $(img).closest('li').find('#' + purchaseHist[i].id).css('display', 'block');
+                // $(div).find('span').html(purchaseHist[i].count);
 
-            $(img).closest('li').find('.prices').find('a').css('display', 'none');
-            $("span[data-id='" + purchaseHist[i].id + "']").text(purchaseHist[i].count);
-            var item = new Item(purchaseHist[i].id);
-            item.count = purchaseHist[i].count;
-            item.price = purchaseHist[i].price;
-            item.total = purchaseHist[i].count * purchaseHist[i].price;
-            purchase.push(item);
+                $(img).closest('li').find('.prices').find('a').css('display', 'none');
+                $("span[data-id='" + purchaseHist[i].id + "']").text(purchaseHist[i].count);
+                var item = new Item(purchaseHist[i].id);
+                item.count = purchaseHist[i].count;
+                item.price = purchaseHist[i].price;
+                item.total = purchaseHist[i].count * purchaseHist[i].price;
+                purchase.push(item);
 
+                agregate();
+
+            }
+        } else {
+           
+				//var massiv = $("img[data-direct='1']");
+            var massiv = $("img").closest('li').find('.prices').find('a:hidden').show();
+            
+           // var bfg = $("img").closest('li').find('.priceCount').find('a:visible').hide();
+            $("div.priceCount:visible").find("span").text(1);
+            $("div.priceCount:visible").hide();
+            massiv.closest('li').find('img').css('width', 80 + 'px').data('direct',0); 
+           // $("span[data-id='" + purchaseHist[i].id + "']").text(purchaseHist[i].count);
             agregate();
-
+           // alert(massiv.length);
+           // $("img[data-direct='1']").css('width', 80 + 'px');
+           //  massiv.show();
+           /* for(var i=0; i<massiv.length; i++)
+                {
+                    alert('hui');
+                    massiv[i].css('width', 80 + 'px');
+                    massiv[i].data('direct', 0);
+                    massiv[i].closest('li').css('height', 80 + 'px');
+                    massiv[i].closest('li').find('.prices').find('a').css('display', 'block'); 
+                }*/
         }
     }
 
+    function removeAll() {
+        // $("#finish2").text(0);
+        purchase.length = 0;
+        // purchaseHist.length = 0;
+
+        //sumBasket();
+        var listView = $("#basket-list").data("kendoMobileListView");
+        listView.dataSource.data(purchase);
+
+        sumBasket();
+        agregate();
+        //rwd.write()
+        //agregate();
+
+    }
+
     function getPurchaseHistory(history) {
+        purchaseHist.length = 0;
+        purchase.length = 0;
+        if (history === "no") { 
+            renderWithHistory();
+        }
         //Сначало считываем все строки, разделённые ';'
         var vals = history.split(";");
         //Обнуляем purchaseHist перед чтением с файала истории
-        purchaseHist.length = 0;
-        purchase.length = 0;
+        
         //Формируем массив объектов истории покупок
         for (var i = 0; i < vals.length; i++) {
             var t = vals[i].split("|");
@@ -561,7 +646,7 @@ var app = (function () {
             purchaseHist.push(item);
         }
         //renderWithHistory;
-        setTimeout(renderWithHistory, 200);
+        setTimeout(renderWithHistory, 300);
     }
 
     //Автозаполнение полей форм
@@ -603,13 +688,20 @@ var app = (function () {
     function showLoader() {
         // mobileApp.changeLoadingMessage("Please wait...");
         //  mobileApp.pane.loader.show();
+        if (mobileApp.hasOwnProperty("pane")) {
+            $(mobileApp.pane.loader.element).show();
+        }
     }
+
 
     function hideloader(e) {
         // e.view.loader.show();
         //setTimeout(function () {
         //    e.view.loader.hide();
         //  }, 2000);
+        if (mobileApp.hasOwnProperty("pane")) {
+            $(mobileApp.pane.loader.element).hide();
+        }
     }
     document.addEventListener("deviceready", initialize);
 
@@ -636,9 +728,8 @@ var app = (function () {
         getPurchaseHistory: getPurchaseHistory,
         getUserFromFile: getUserFromFile,
         hideLoader: hideloader,
-        showLoader: showLoader
-            //  showLoader: showDrawer
-            // showDrawer: showDrawer
+        showLoader: showLoader,
+        removeAll: removeAll
     }
 
 }());
