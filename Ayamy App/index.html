@@ -243,8 +243,8 @@
     <script type="text/x-kendo-template" id="main-template">
       <img src="#:url#" style="float:left;" id="img#:id#" data-direct="0" /> 
         <div class="item-center">
-        	<div style="margin-left:5px;">#:name#</div>
-            <span class="description">#:description#</span>
+        	<div style="margin-left:5px;line-height: 0.7em; padding:5px;">#:name#</div>
+            <span class="description" style="overflow: hidden; padding-left: 5px; line-height: 0.9em;">#:description#</span>
         </div>
         <div id="#:id#" class="priceCount">
             <a data-role="button" data-click="app.m">-</a><span data-id="#:id#" data-price="#:price#">1</span><a data-role="button" data-click="app.p">+</a>
