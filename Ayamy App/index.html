@@ -27,7 +27,7 @@
             </div>
         </div>  
     </div>
-    <div data-role="view" id="main-view" data-layout="main-layout" data-title="Аями" data-after-show="app.hideLoader" data-before-show="app.showLoader" data-init="app.init" data-show="app.show" data-hide="app.hide" data-reload="false">
+    <div data-role="view" id="main-view" data-layout="main-layout" data-title="Аями" data-after-show="app.hideLoader" data-before-show="app.showLoader" data-init="app.init" data-show="app.show" data-reload="false">
         <div id="sale" data-role="popover" data-popup='{"height": "16em", "width": "20em"}'>
             <div data-role="view" data-title="Скидка">
                 <h2 style="color:#EEB422">При заказе от 1000 рублей предоставляется скидка 5%</h2>
@@ -63,7 +63,7 @@
                 Ингредиенты
             </li>
         </ul>
-        <ul data-role="listview" data-style="inset" >
+        <ul data-role="listview" data-style="inset" class="list1">
             <li><a data-role="button" href="#main-view?hash=all">Все</a>
             </li>
             <li><a data-role="button" href="#main-view?hash=rolls">Роллы</a>
@@ -87,14 +87,16 @@
             <li><a data-role="button" href="#main-view?hash=extra">Дополнительно</a>
             </li>
         </ul>
-        <ul data-role="listview" data-style="inset" style="display:none">
-            <li><a data-role="button" href="#main-view?item=лосос">Лосось</a>
+        <ul data-role="listview" data-style="inset" class="list1" style="display:none">
+            <li><a data-role="button" href="#main-view?consist=salmon">Лосось</a>
             </li>
-            <li><a data-role="button" href="#main-view?item=угорь">Угорь</a>
+            <li><a data-role="button" href="#main-view?consist=eel">Угорь</a>
             </li>
-            <li><a data-role="button" href="#main-view?item=краб">Мясо краба</a>
+             <li><a data-role="button" href="#main-view?consist=tuna">Тунец</a>
             </li>
-            <li><a data-role="button" href="#main-view?item=креветк">Креветки</a>
+            <li><a data-role="button" href="#main-view?consist=shrimp">Креветки</a>
+            </li>
+            <li><a data-role="button" href="#main-view?consist=chicken">Курица</a>
             </li>
         </ul>
     </div>
@@ -105,9 +107,13 @@
                 <a id="fin" data-role="button" data-click="app.removeAll" data-icon="trash" data-align="right">Очистить</a>
             </div>
         </div>
-        <h3 style="text-align:center;color:gray" id="hready">
+        <h3 class="basket-title" id="hready">
         </h3>
-        <ul id="basket-list"></ul>
+        <ul id="basket-list" data-style="inset"></ul>
+        <h3 class="basket-title" id="df">
+            Дополнительные порции
+        </h3>
+        <ul id="adv-list" data-style="inset"></ul>
         <div data-role="footer" id="foo">
             <div data-role="navbar">
                 <span id="finish2" class="finish"></span>
@@ -175,11 +181,11 @@
                         <input type="number" name="flat" min="1" data-bind="value: flat" placeholder="Номер" />
                     </label>
                 </li>
-                 <li>
+               <!--  <li>
                     <label>Количество персон:
                         <input type="number" name="person" min="1" style="padding-left:20px;" data-bind="value: person" />
                     </label>
-                </li>
+                </li>-->
                 <li style="height:50px;">
                     <label style="color:gray;">Ко времени:
                         <input type="time" name="time" data-bind="value: time" placeholder="Время" />
@@ -217,11 +223,11 @@
                         <input type="number" name="tel" min="8" data-bind="value: tel" placeholder="Телефон" />
                     </label>
                 </li>
-                <li>
+                 <!--  <li>
                     <label>Количество персон:
-                        <input type="number" name="person" min="1" style="padding-left:20px;" data-bind="value: person" value="1" />
+                        <input type="number" name="person" min="1" style="padding-left:20px;" data-bind="value: person" />
                     </label>
-                </li>
+                </li>-->
                 <li style="height:50px;">
                     <label style="color:gray;">Ко времени:
                         <input type="time" name="time" style="height:35px;" data-bind="value: time" />
@@ -241,30 +247,35 @@
         </div>
     </div>
     <script type="text/x-kendo-template" id="main-template">
-      <img src="#:url#" style="float:left;" id="img#:id#" data-direct="0" /> 
+        <img src="#:url#" id="img#:id#" data-direct="0" /> 
         <div class="item-center">
-        	<div style="margin-left:5px;">#:name#</div>
+        	<div class="title">#:name#</div>
             <span class="description">#:description#</span>
         </div>
         <div id="#:id#" class="priceCount">
             <a data-role="button" data-click="app.m">-</a><span data-id="#:id#" data-price="#:price#">1</span><a data-role="button" data-click="app.p">+</a>
         </div>
-        <div class="prices">
-        	<a data-role="button" class="prices" data-click="app.doPrice" data-on="false" data-id="#:id#" data-price="#:price#">#:price# Р</a>
-        </div>
+        <a data-role="button" class="prices" data-click="app.doPrice" data-on="false" data-id="#:id#" data-price="#:price#">#:price# Р</a>
     </script>
     <script type="text/x-kendo-template" id="basket-template">
-        <img src="${url}" style="float:left;" id="imgB${id}" data-direct="0" />
-        <div class="items">${name}</div>
-        <div id="b${id}" class="priceCount">
-            <a data-role="button" data-click="app.mB">-</a><span data-id="${id}" data-price="${price}">${count}</span><a data-role="button" data-click="app.pB">+</a>
+        <img src="#:url#" id="imgB#:id#" data-direct="0" />
+        <div class="item-center">
+        	<div style="margin-left:5px;">#:name#</div>
         </div>
-        <h4 class="prices">
-        	<a data-role="button" class="prices" data-click="app.doPriceBasket" data-on="false" data-id="${id}">${count} X ${price} Р</a>
-        </h4>
+        <div id="b#:id#" class="priceCount">
+            <a data-role="button" data-click="app.mB">-</a><span data-id="#:id#" data-price="${price}">${count}</span><a data-role="button" data-click="app.pB">+</a>
+        </div>
+        <a data-role="button" class="prices" data-click="app.doPriceBasket" data-on="false" data-id="#:id#">${count} X ${price} Р</a>
     </script>
-    <script type="text/x-kendo-template" id="image-template">
-        <img src="http://ayamibar.ru/images/rol/rol_ayami_mix.JPG" />
+    <script type="text/x-kendo-template" id="adv-template">
+    	<img src="#:url#" id="imgB#:id#" data-direct="0" />
+        <div class="item-center">
+        	<div style="margin-left:5px;">#:name#</div>
+        </div>
+        <div id="b#:id#" class="priceCount">
+            <a data-role="button" data-click="app.mB">-</a><span data-id="#:id#" data-price="${price}">${count}</span><a data-role="button" data-click="app.pB">+</a>
+        </div>
+        <a data-role="button" class="prices" data-click="app.doPriceBasket" data-on="false" data-id="#:id#">${count+1} X ${price*count} Р</a>
     </script>
 </body>
 
