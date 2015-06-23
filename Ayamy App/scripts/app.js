@@ -130,7 +130,7 @@ var app = (function () {
                 // alert(curVers);
                 rwd.read(dirName, versionFile, curVers);
             });
-        }, 1000);
+        }, 2000);
 
         /*$("img").click(function (e) {
             $("#bigImage").kendoMobile
@@ -165,11 +165,15 @@ var app = (function () {
         });*/
     }
 
+    var isConsist = false;
+    
     function showMain(e) {
 
         // $("#main-list").data("kendoMobileListView").refresh();
 
         e.view.scroller.scrollTo(0, 0);
+        //Сбрасываем фильтр
+           // dataSource.filter([]);
         //Определяем тип параметра либо хэш либо ингредиент
         if (e.view.params.hasOwnProperty("hash")) {
 
@@ -184,17 +188,27 @@ var app = (function () {
                       ignoreCase: true,
                       value: e.view.params.hash
                   });*/
+                 //Если до этого делали фильтр по составу, то сбрасыаем фильтр и позицию скрола
+                    if (isConsist) {
+                        dataSource.filter([]);
+                       // dataSource.sync();
+                      //  $("#main-list").data("kendoMobileListView").refresh();
+                        isConsist = false;
+                    }
                 var el = $("#" + e.view.params.hash);
                 //Если элемент существует
                 if (el.hasOwnProperty("length")) {
-                    //Получаем позицию элемента
-                    var pos = el.offset();
-                    e.view.scroller.animatedScrollTo(0, -(pos.top - 55))
+                   
+                   // if (e.view.params.hash !== "rolls") {
+                         //Получаем позицию элемента
+                     	var pos = el.offset();
+                     	e.view.scroller.animatedScrollTo(0, -(pos.top - 55));
+                   // }
                 }
             }
         } else if (e.view.params.hasOwnProperty("consist")) {
             //Фильтруем существующий список по терму
-            //Не работает в айфоне
+            isConsist = true;
             dataSource.filter({
                 field: "consist",
                 operator: "contains",
@@ -207,7 +221,9 @@ var app = (function () {
     }
 
     function hideMain(e) {
-
+		//e.view.scroller.scrollTo(0, 0);
+        //Сбрасываем фильтр
+           // dataSource.filter([]);
     }
 
     //Подводим итог
@@ -267,18 +283,16 @@ var app = (function () {
                     flag = false;
                     break;
                 } else {
-
                     //Ищем полное кол-во по текущему итему
-                    for (var i = 0; i < purchase.length; i++) {
+                    //for (var i = 0; i < purchase.length; i++) {
                         //if (curId === purchase[i].id) {
-                        if ($(e.target).next().data("id") === purchase[i].id) {
+                        //if ($(e.target).next().data("id") === purchase[i].id) {
                             //Удаляем итем из общего массива
                             purchase.splice(i, 1);
                             $("span[data-id='" + id + "']").text(1);
-                        }
-                    }
+                        //}
+                    //}
                     button.data("on", false);
-
                     var directionAnimate = $("#img" + id).data("direct");
 
                     $("#" + id).fadeToggle(100, 'linear', function () {
@@ -300,6 +314,7 @@ var app = (function () {
 
     function doPrice(e) {
         if (flag) return false;
+        //alert("1");
         flag = true;
         curId = $(e.target).data("id");
         //Если цена выделена
@@ -475,9 +490,14 @@ var app = (function () {
     }
 
     function initBasket() {
+	
+        if (purchase.length === 0) {
+            sumBasket();
+            return false;
+        }
 
         addExtra();
-
+        
         var dt1 = new kendo.data.DataSource({
             data: purchase,
             filter: {
@@ -515,7 +535,7 @@ var app = (function () {
 
     function back() {
         //Очищаем список покупок
-        purchase.length = 0;
+       // purchase.length = 0;
         $("#basket").text(0);
     }
 
@@ -539,7 +559,7 @@ var app = (function () {
                     purchase[i].total = purchase[i].count * purchase[i].price;
                     // break;
                 } else {
-                    for (var i = 0; i < purchase.length; i++) {
+                  //  for (var i = 0; i < purchase.length; i++) {
                         //if (curId === purchase[i].id) {
                         if ($(e.target).next().data("id") === purchase[i].id) {
                             if (purchase[i].order === 10) {
@@ -565,7 +585,7 @@ var app = (function () {
                             	$(e.target).closest('li').fadeToggle('fast');
                             }
                         }
-                    }
+                   // }
                 }
             }
         }
@@ -646,8 +666,6 @@ var app = (function () {
         agregate();
 
         mobileApp.view().scroller.scrollTo(0, 0);
-        //rwd.write()
-        //agregate();
 
     }
 
@@ -716,16 +734,21 @@ var app = (function () {
         }
     }
 
-
     function hideloader(e) {
         // e.view.loader.show();
         //setTimeout(function () {
         //    e.view.loader.hide();
         //  }, 2000);
+        
         if (mobileApp.hasOwnProperty("pane")) {
             $(mobileApp.pane.loader.element).hide();
         }
     }
+    
+    function hideBasket () {
+       // alert(purchase.length);
+    }
+    
     document.addEventListener("deviceready", initialize);
 
     return {
@@ -744,6 +767,7 @@ var app = (function () {
         //  mSubm: mSubm,
         initBasketView: initBasket,
         doPriceBasket: doPriceBasket,
+        hideBasket: hideBasket,
         back: back,
         ready: ready,
         mB: mB,

@@ -27,7 +27,7 @@
             </div>
         </div>  
     </div>
-    <div data-role="view" id="main-view" data-layout="main-layout" data-title="Аями" data-after-show="app.hideLoader" data-before-show="app.showLoader" data-init="app.init" data-show="app.show" data-reload="false">
+    <div data-role="view" id="main-view" data-layout="main-layout" data-title="Аями" data-after-show="app.hideLoader" data-before-show="app.showLoader" data-init="app.init" data-hide="app.hide" data-show="app.show" data-reload="false">
         <div id="sale" data-role="popover" data-popup='{"height": "16em", "width": "20em"}'>
             <div data-role="view" data-title="Скидка">
                 <h2 style="color:#EEB422">При заказе от 1000 рублей предоставляется скидка 5%</h2>
@@ -100,7 +100,7 @@
             </li>
         </ul>
     </div>
-    <div data-role="view" id="basket" data-show="app.initBasketView">
+    <div data-role="view" id="basket" data-show="app.initBasketView" data-hide="app.hideBasket">
         <div data-role="header">
             <div data-role="navbar">
                 <a data-role="backbutton" data-icon="home" data-align="left" data-click="app.back">Назад</a>
@@ -110,7 +110,7 @@
         <h3 class="basket-title" id="hready">
         </h3>
         <ul id="basket-list" data-style="inset"></ul>
-        <h3 class="basket-title" id="df">
+       <h3 class="basket-title" id="df">
             Дополнительные порции
         </h3>
         <ul id="adv-list" data-style="inset"></ul>
