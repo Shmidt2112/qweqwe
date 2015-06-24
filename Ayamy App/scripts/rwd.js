@@ -15,13 +15,13 @@ var rwd = (function () {
             reader.onloadend = function (evt) {
                 //alert(evt.target.result);
                 if (fileName === "AyamyHistory.txt") {
-                    //Если что-то есть
+                    //Если что-то есть читаем с файла, иначе действие по умолчанию
                     if (evt.target.result) {
                         //alert(evt.target.result);
                         app.getPurchaseHistory(evt.target.result);
-                    } else {
-                        app.getPurchaseHistory("no");
-                    }
+                   } //else {
+                   //     app.renderDefault();
+                   // }
                 } else if (fileName === "AyamyUser.txt") {
                     if (evt.target.result) {
                         app.getUserFromFile(evt.target.result);
